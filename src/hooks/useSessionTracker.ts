@@ -15,15 +15,15 @@ interface SessionData {
 }
 
 function generateSecureDeviceId(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return `device_${crypto.randomUUID()}`;
   }
   const timestamp = Date.now();
   const randomBytes = new Uint8Array(8);
   crypto.getRandomValues(randomBytes);
   const randomHex = Array.from(randomBytes)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
   return `device_${timestamp}_${randomHex}`;
 }
 

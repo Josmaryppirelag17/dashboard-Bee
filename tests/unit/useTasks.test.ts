@@ -3,11 +3,51 @@ import { renderHook, act } from "@testing-library/react";
 import { useTasks } from "@/hooks/useTasks";
 
 let mockTasks: any[] = [
-  { id: "t1", title: "Task A", completed: false, columnId: "todo", category: "Work", pollenUnits: 2, priority: "MEDIUM" },
-  { id: "t2", title: "Task B", completed: false, columnId: "in_progress", category: "Work", pollenUnits: 3, priority: "HIGH" },
-  { id: "t3", title: "Task C", completed: true, columnId: "completed", category: "Personal", pollenUnits: 5, priority: "LOW" },
-  { id: "t4", title: "Task D", completed: false, columnId: "todo", category: "Personal", pollenUnits: 1, priority: "MEDIUM" },
-  { id: "t5", title: "Task E", completed: true, columnId: "completed", category: "Work", pollenUnits: 4, priority: "HIGH" },
+  {
+    id: "t1",
+    title: "Task A",
+    completed: false,
+    columnId: "todo",
+    category: "Work",
+    pollenUnits: 2,
+    priority: "MEDIUM",
+  },
+  {
+    id: "t2",
+    title: "Task B",
+    completed: false,
+    columnId: "in_progress",
+    category: "Work",
+    pollenUnits: 3,
+    priority: "HIGH",
+  },
+  {
+    id: "t3",
+    title: "Task C",
+    completed: true,
+    columnId: "completed",
+    category: "Personal",
+    pollenUnits: 5,
+    priority: "LOW",
+  },
+  {
+    id: "t4",
+    title: "Task D",
+    completed: false,
+    columnId: "todo",
+    category: "Personal",
+    pollenUnits: 1,
+    priority: "MEDIUM",
+  },
+  {
+    id: "t5",
+    title: "Task E",
+    completed: true,
+    columnId: "completed",
+    category: "Work",
+    pollenUnits: 4,
+    priority: "HIGH",
+  },
 ];
 
 const mockAddTask = vi.fn();
@@ -31,11 +71,51 @@ vi.mock("@/store/useHiveStore", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
   mockTasks = [
-    { id: "t1", title: "Task A", completed: false, columnId: "todo", category: "Work", pollenUnits: 2, priority: "MEDIUM" },
-    { id: "t2", title: "Task B", completed: false, columnId: "in_progress", category: "Work", pollenUnits: 3, priority: "HIGH" },
-    { id: "t3", title: "Task C", completed: true, columnId: "completed", category: "Personal", pollenUnits: 5, priority: "LOW" },
-    { id: "t4", title: "Task D", completed: false, columnId: "todo", category: "Personal", pollenUnits: 1, priority: "MEDIUM" },
-    { id: "t5", title: "Task E", completed: true, columnId: "completed", category: "Work", pollenUnits: 4, priority: "HIGH" },
+    {
+      id: "t1",
+      title: "Task A",
+      completed: false,
+      columnId: "todo",
+      category: "Work",
+      pollenUnits: 2,
+      priority: "MEDIUM",
+    },
+    {
+      id: "t2",
+      title: "Task B",
+      completed: false,
+      columnId: "in_progress",
+      category: "Work",
+      pollenUnits: 3,
+      priority: "HIGH",
+    },
+    {
+      id: "t3",
+      title: "Task C",
+      completed: true,
+      columnId: "completed",
+      category: "Personal",
+      pollenUnits: 5,
+      priority: "LOW",
+    },
+    {
+      id: "t4",
+      title: "Task D",
+      completed: false,
+      columnId: "todo",
+      category: "Personal",
+      pollenUnits: 1,
+      priority: "MEDIUM",
+    },
+    {
+      id: "t5",
+      title: "Task E",
+      completed: true,
+      columnId: "completed",
+      category: "Work",
+      pollenUnits: 4,
+      priority: "HIGH",
+    },
   ];
 });
 

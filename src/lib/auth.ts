@@ -11,10 +11,7 @@ export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 12);
 }
 
-export async function verifyPassword(
-  password: string,
-  hash: string,
-): Promise<boolean> {
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
@@ -69,11 +66,7 @@ export async function getCurrentUser() {
   const token = await getSessionToken();
   if (!token) return null;
 
-  const [session] = await db
-    .select()
-    .from(sessions)
-    .where(eq(sessions.token, token))
-    .limit(1);
+  const [session] = await db.select().from(sessions).where(eq(sessions.token, token)).limit(1);
 
   if (!session) return null;
   if (new Date() > session.expiresAt) {
@@ -81,11 +74,7 @@ export async function getCurrentUser() {
     return null;
   }
 
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, session.userId))
-    .limit(1);
+  const [user] = await db.select().from(users).where(eq(users.id, session.userId)).limit(1);
 
   if (!user) return null;
 
@@ -114,12 +103,18 @@ async function generateResetTokenString(): Promise<string> {
 
 export async function createPasswordResetToken(
   email: string,
-): Promise<{ success: true; resetToken: string; resetUrl: string } | { success: false; error: string }> {
+): Promise<
+  { success: true; resetToken: string; resetUrl: string } | { success: false; error: string }
+> {
   const db = getDb();
   if (!db) return { success: false, error: "Database not configured" };
 
   try {
-    const userResult = await db.select().from(users).where(eq(users.email, email.toLowerCase())).limit(1);
+    const userResult = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email.toLowerCase()))
+      .limit(1);
     if (userResult.length === 0) {
       return { success: false, error: "No account found with that email" };
     }
@@ -155,10 +150,7 @@ export async function validateResetToken(
       .select()
       .from(passwordResetTokens)
       .where(
-        and(
-          eq(passwordResetTokens.token, token),
-          gt(passwordResetTokens.expiresAt, new Date()),
-        ),
+        and(eq(passwordResetTokens.token, token), gt(passwordResetTokens.expiresAt, new Date())),
       )
       .limit(1);
 

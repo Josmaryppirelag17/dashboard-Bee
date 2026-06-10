@@ -19,7 +19,10 @@ class AnalyticsClient {
   }
 
   pageView(path: string) {
-    this.track("page_view", { path, referrer: typeof document !== "undefined" ? document.referrer : "" });
+    this.track("page_view", {
+      path,
+      referrer: typeof document !== "undefined" ? document.referrer : "",
+    });
   }
 
   private startFlush() {
@@ -29,10 +32,21 @@ class AnalyticsClient {
 
   private async flush() {
     if (this.queue.length === 0 || !ANALYTICS_ENDPOINT) return;
-    const batch = [...this.queue]; this.queue = [];
-    if (navigator.sendBeacon) { navigator.sendBeacon(ANALYTICS_ENDPOINT, JSON.stringify({ events: batch })); return; }
-    try { await fetch(ANALYTICS_ENDPOINT, { method: "POST", body: JSON.stringify({ events: batch }), keepalive: true }); } catch {}
+    const batch = [...this.queue];
+    this.queue = [];
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(ANALYTICS_ENDPOINT, JSON.stringify({ events: batch }));
+      return;
+    }
+    try {
+      await fetch(ANALYTICS_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify({ events: batch }),
+        keepalive: true,
+      });
+    } catch {}
   }
 }
 
-export const analytics = typeof window !== "undefined" ? new AnalyticsClient() : ({} as AnalyticsClient);
+export const analytics =
+  typeof window !== "undefined" ? new AnalyticsClient() : ({} as AnalyticsClient);

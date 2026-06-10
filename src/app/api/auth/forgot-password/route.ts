@@ -31,7 +31,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("[auth/forgot-password]", error);
     return NextResponse.json(
-      { success: false, error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred" } },
+      {
+        success: false,
+        error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred" },
+      },
       { status: 500 },
     );
   }

@@ -12,9 +12,7 @@ function generateNonce(): string {
 const ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "https://beehive.vercel.app",
-  ...(process.env.NEXT_PUBLIC_SITE_URL
-    ? [process.env.NEXT_PUBLIC_SITE_URL]
-    : []),
+  ...(process.env.NEXT_PUBLIC_SITE_URL ? [process.env.NEXT_PUBLIC_SITE_URL] : []),
 ];
 
 export function middleware(request: NextRequest) {
@@ -22,15 +20,11 @@ export function middleware(request: NextRequest) {
   const origin = request.headers.get("origin") || "";
 
   // ── CORS (validate origin) ──
-  const isValidOrigin =
-    isDev || !origin || ALLOWED_ORIGINS.includes(origin);
+  const isValidOrigin = isDev || !origin || ALLOWED_ORIGINS.includes(origin);
   if (isValidOrigin && origin) {
     response.headers.set("Access-Control-Allow-Origin", origin);
   }
-  response.headers.set(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-  );
+  response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
   response.headers.set(
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Requested-With",
@@ -44,20 +38,11 @@ export function middleware(request: NextRequest) {
   // ── Security Headers ──
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set(
-    "Referrer-Policy",
-    "strict-origin-when-cross-origin",
-  );
-  response.headers.set(
-    "Strict-Transport-Security",
-    "max-age=63072000; includeSubDomains; preload",
-  );
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-DNS-Prefetch-Control", "off");
-  response.headers.set(
-    "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=()",
-  );
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
   // ── CSP (development vs production) ──
   // Production uses nonce-based CSP to pass Mozilla Observatory.

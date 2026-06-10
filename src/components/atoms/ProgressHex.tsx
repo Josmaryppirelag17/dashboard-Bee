@@ -69,7 +69,11 @@ export const ProgressHex: React.FC<ProgressHexProps> = ({
       aria-valuemin={0}
       aria-valuemax={100}
     >
-      <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+      <svg
+        className="absolute inset-0 w-full h-full transform -rotate-90"
+        viewBox="0 0 100 100"
+        aria-hidden="true"
+      >
         {/* Hexagon Track Background */}
         <path
           d="M 50 5 L 91 29 L 91 71 L 50 95 L 9 71 L 9 29 Z"
@@ -93,7 +97,10 @@ export const ProgressHex: React.FC<ProgressHexProps> = ({
         />
       </svg>
       {/* Icon centered overlays */}
-      <div className="relative z-10 filter drop-shadow-[0_2px_4px_rgba(226,136,0,0.15)]" aria-hidden="true">
+      <div
+        className="relative z-10 filter drop-shadow-[0_2px_4px_rgba(226,136,0,0.15)]"
+        aria-hidden="true"
+      >
         {renderHexIcon(iconName, accentColor)}
       </div>
     </div>

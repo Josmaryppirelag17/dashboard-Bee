@@ -8,7 +8,7 @@ import { AuthProvider } from "@/context/AuthContext";
 
 const StructuredData = dynamic(
   () => import("@/lib/structured-data").then((m) => ({ default: m.StructuredData })),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function Providers({ children }: { children: React.ReactNode }) {

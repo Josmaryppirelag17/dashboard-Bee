@@ -133,10 +133,7 @@ describe("useHiveStore", () => {
       localStorage.setItem("beehive_userBeeName", "QueenBee");
       localStorage.setItem("beehive_unlockedAchievements", JSON.stringify(["first-task"]));
       localStorage.setItem("beehive_claimedQuests", JSON.stringify(["q1"]));
-      localStorage.setItem(
-        "beehive_weeklyFocusMins",
-        JSON.stringify([10, 20, 30, 0, 0, 0, 0]),
-      );
+      localStorage.setItem("beehive_weeklyFocusMins", JSON.stringify([10, 20, 30, 0, 0, 0, 0]));
 
       useHiveStore.getState().hydrate();
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -168,9 +165,13 @@ describe("useHiveStore", () => {
     });
 
     it("addTask sanitizes title", async () => {
-      await useHiveStore.getState().addTask("<script>alert('xss')</script>", "MEDIUM" as any, "Work", 2);
+      await useHiveStore
+        .getState()
+        .addTask("<script>alert('xss')</script>", "MEDIUM" as any, "Work", 2);
       const state = useHiveStore.getState();
-      expect(state.tasks[0]!.title).toBe("&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;");
+      expect(state.tasks[0]!.title).toBe(
+        "&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;",
+      );
     });
 
     it("addTask skips empty title", async () => {
@@ -236,11 +237,15 @@ describe("useHiveStore", () => {
       await useHiveStore.getState().addTask("Keep", "MEDIUM" as any, "Work", 1);
       await useHiveStore.getState().addTask("Remove", "MEDIUM" as any, "Work", 1);
       useHiveStore.setState({
-        tasks: useHiveStore.getState().tasks.map((t) =>
-          t.title === "Remove" ? { ...t, completed: true, columnId: "completed" as const } : t,
-        ),
+        tasks: useHiveStore
+          .getState()
+          .tasks.map((t) =>
+            t.title === "Remove" ? { ...t, completed: true, columnId: "completed" as const } : t,
+          ),
       });
-      expect(useHiveStore.getState().tasks.filter((t) => t.columnId === "completed")).toHaveLength(1);
+      expect(useHiveStore.getState().tasks.filter((t) => t.columnId === "completed")).toHaveLength(
+        1,
+      );
       await useHiveStore.getState().clearCompletedTasks();
       expect(useHiveStore.getState().tasks).toHaveLength(1);
       expect(useHiveStore.getState().tasks[0]!.title).toBe("Keep");
@@ -339,8 +344,24 @@ describe("useHiveStore", () => {
   describe("importTasks", () => {
     it("imports tasks in bulk", async () => {
       const imported = [
-        { title: "Imported 1", completed: false, priority: "MEDIUM", category: "Work", pollenUnits: 2, columnId: "todo", notes: "" },
-        { title: "Imported 2", completed: true, priority: "HIGH", category: "Work", pollenUnits: 5, columnId: "completed", notes: "Done" },
+        {
+          title: "Imported 1",
+          completed: false,
+          priority: "MEDIUM",
+          category: "Work",
+          pollenUnits: 2,
+          columnId: "todo",
+          notes: "",
+        },
+        {
+          title: "Imported 2",
+          completed: true,
+          priority: "HIGH",
+          category: "Work",
+          pollenUnits: 5,
+          columnId: "completed",
+          notes: "Done",
+        },
       ];
       await useHiveStore.getState().importTasks(imported as any);
       const state = useHiveStore.getState();

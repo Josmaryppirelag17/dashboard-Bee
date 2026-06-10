@@ -17,5 +17,4 @@ export class BeehiveDatabase extends Dexie {
 
 export const db = new BeehiveDatabase();
 
-export async function seedDatabaseIfEmpty() {
-}
+export async function seedDatabaseIfEmpty() {}

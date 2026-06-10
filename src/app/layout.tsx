@@ -23,8 +23,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     title: "BeeHive - Dashboard de Productividad",
-    description:
-      "Organiza tus tareas con BeeHive Productivity — Pomodoro, Kanban y gamificación.",
+    description: "Organiza tus tareas con BeeHive Productivity — Pomodoro, Kanban y gamificación.",
     url: siteUrl,
     siteName: "BeeHive",
     locale: "es_ES",
@@ -47,11 +46,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = await headers();
   const nonce = headersList.get("x-nonce") ?? "";
 
@@ -62,7 +57,10 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.className} bg-[#faf6ee] text-[#100f0d] antialiased`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#e28800] focus:text-white focus:rounded-xl focus:font-bold focus:outline-none">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#e28800] focus:text-white focus:rounded-xl focus:font-bold focus:outline-none"
+        >
           Saltar al contenido principal
         </a>
         <Providers>{children}</Providers>

@@ -13,14 +13,13 @@ export async function GET() {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
-    const [stats] = await db
-      .select()
-      .from(userStats)
-      .where(eq(userStats.userId, user.id))
-      .limit(1);
+    const [stats] = await db.select().from(userStats).where(eq(userStats.userId, user.id)).limit(1);
 
     if (!stats) {
       return NextResponse.json({ success: true, data: null });
@@ -57,7 +56,10 @@ export async function PUT(request: NextRequest) {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
     const updateData: Record<string, unknown> = {};
@@ -88,10 +90,7 @@ export async function PUT(request: NextRequest) {
       .limit(1);
 
     if (existing) {
-      await db
-        .update(userStats)
-        .set(updateData)
-        .where(eq(userStats.userId, user.id));
+      await db.update(userStats).set(updateData).where(eq(userStats.userId, user.id));
     } else {
       await db.insert(userStats).values({
         userId: user.id,

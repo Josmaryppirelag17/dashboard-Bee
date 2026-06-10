@@ -47,9 +47,7 @@ export default function AuthButton({ collapsed }: AuthButtonProps) {
               <span className="text-[9px] font-black text-[#5c5449] uppercase tracking-wide block truncate">
                 {user.name}
               </span>
-              <span className="text-[8px] text-[#5c5449]/70 block truncate">
-                {user.email}
-              </span>
+              <span className="text-[8px] text-[#5c5449]/70 block truncate">{user.email}</span>
             </div>
           )}
           <button

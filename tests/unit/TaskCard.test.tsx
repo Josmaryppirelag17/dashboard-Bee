@@ -123,7 +123,11 @@ describe("TaskCard", () => {
 
     it("opens notes when notes button is clicked", () => {
       render(
-        <TaskCard task={createTask({ notes: "some notes" })} onToggle={() => {}} onDelete={() => {}}>
+        <TaskCard
+          task={createTask({ notes: "some notes" })}
+          onToggle={() => {}}
+          onDelete={() => {}}
+        >
           <TaskCard.Actions />
         </TaskCard>,
       );

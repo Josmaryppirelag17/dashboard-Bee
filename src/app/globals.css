@@ -14,7 +14,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -23,7 +23,7 @@
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -42,14 +42,19 @@
 }
 
 /* ── CLS fix: explicit bounds for media elements ── */
-img, svg, video, iframe {
+img,
+svg,
+video,
+iframe {
   max-width: 100%;
   height: auto;
 }
 
 /* ── Respect user motion preferences ── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

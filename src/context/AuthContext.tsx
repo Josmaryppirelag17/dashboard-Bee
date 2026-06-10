@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useHiveStore } from "@/store/useHiveStore";
 
 interface User {
@@ -21,7 +15,13 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (email: string, username: string, name: string, lastName: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (
+    email: string,
+    username: string,
+    name: string,
+    lastName: string,
+    password: string,
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
 }
@@ -70,45 +70,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
-  const login = useCallback(
-    async (email: string, password: string) => {
-      try {
-        const res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
-        const json = await res.json();
-        if (json.success) {
-          setUser(json.data.user);
-          const state = useHiveStore.getState();
-          const { tasks, xp, level, totalFocusMins, streakCount, weeklyFocusMins, weeklyTasksCompleted, userBeeName, unlockedAchievements, claimedQuests } = state;
-          try {
-            await fetch("/api/sync", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                tasks: tasks.map((t) => ({ ...t, taskId: t.id })),
-                stats: { xp, level, totalFocusMins, streakCount, weeklyFocusMins, weeklyTasksCompleted, userBeeName, unlockedAchievements, claimedQuests },
-              }),
-            });
-          } catch (e) {
-            console.error("Sync after login failed:", e);
-          }
-          useHiveStore.getState().setUserId(json.data.user.id);
-          useHiveStore.getState().loadTasks();
-          return { success: true };
+  const login = useCallback(async (email: string, password: string) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setUser(json.data.user);
+        const state = useHiveStore.getState();
+        const {
+          tasks,
+          xp,
+          level,
+          totalFocusMins,
+          streakCount,
+          weeklyFocusMins,
+          weeklyTasksCompleted,
+          userBeeName,
+          unlockedAchievements,
+          claimedQuests,
+        } = state;
+        try {
+          await fetch("/api/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              tasks: tasks.map((t) => ({ ...t, taskId: t.id })),
+              stats: {
+                xp,
+                level,
+                totalFocusMins,
+                streakCount,
+                weeklyFocusMins,
+                weeklyTasksCompleted,
+                userBeeName,
+                unlockedAchievements,
+                claimedQuests,
+              },
+            }),
+          });
+        } catch (e) {
+          console.error("Sync after login failed:", e);
         }
-        return {
-          success: false,
-          error: json.error?.message ?? "Login failed",
-        };
-      } catch {
-        return { success: false, error: "Network error" };
+        useHiveStore.getState().setUserId(json.data.user.id);
+        useHiveStore.getState().loadTasks();
+        return { success: true };
       }
-    },
-    [],
-  );
+      return {
+        success: false,
+        error: json.error?.message ?? "Login failed",
+      };
+    } catch {
+      return { success: false, error: "Network error" };
+    }
+  }, []);
 
   const register = useCallback(
     async (email: string, username: string, name: string, lastName: string, password: string) => {
@@ -122,14 +140,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (json.success) {
           setUser(json.data.user);
           const state = useHiveStore.getState();
-          const { tasks, xp, level, totalFocusMins, streakCount, weeklyFocusMins, weeklyTasksCompleted, userBeeName, unlockedAchievements, claimedQuests } = state;
+          const {
+            tasks,
+            xp,
+            level,
+            totalFocusMins,
+            streakCount,
+            weeklyFocusMins,
+            weeklyTasksCompleted,
+            userBeeName,
+            unlockedAchievements,
+            claimedQuests,
+          } = state;
           try {
             await fetch("/api/sync", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 tasks: tasks.map((t) => ({ ...t, taskId: t.id })),
-                stats: { xp, level, totalFocusMins, streakCount, weeklyFocusMins, weeklyTasksCompleted, userBeeName, unlockedAchievements, claimedQuests },
+                stats: {
+                  xp,
+                  level,
+                  totalFocusMins,
+                  streakCount,
+                  weeklyFocusMins,
+                  weeklyTasksCompleted,
+                  userBeeName,
+                  unlockedAchievements,
+                  claimedQuests,
+                },
               }),
             });
           } catch (e) {
@@ -159,9 +198,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, loading, login, register, logout, checkSession }}
-    >
+    <AuthContext.Provider value={{ user, loading, login, register, logout, checkSession }}>
       {children}
     </AuthContext.Provider>
   );

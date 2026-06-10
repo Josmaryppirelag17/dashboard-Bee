@@ -53,11 +53,19 @@ class MockAudioContext {
 const lsStore: Record<string, string> = {};
 globalThis.localStorage = {
   getItem: (key: string) => lsStore[key] ?? null,
-  setItem: (key: string, value: string) => { lsStore[key] = value; },
-  removeItem: (key: string) => { delete lsStore[key]; },
-  clear: () => { Object.keys(lsStore).forEach((k) => delete lsStore[k]); },
+  setItem: (key: string, value: string) => {
+    lsStore[key] = value;
+  },
+  removeItem: (key: string) => {
+    delete lsStore[key];
+  },
+  clear: () => {
+    Object.keys(lsStore).forEach((k) => delete lsStore[k]);
+  },
   key: (index: number) => Object.keys(lsStore)[index] ?? null,
-  get length() { return Object.keys(lsStore).length; },
+  get length() {
+    return Object.keys(lsStore).length;
+  },
 };
 
 Object.defineProperty(window, "AudioContext", {

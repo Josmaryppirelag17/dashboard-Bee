@@ -13,16 +13,32 @@ interface LogEntry {
 class LoggerService {
   private context: string;
 
-  constructor(context: string) { this.context = context; }
+  constructor(context: string) {
+    this.context = context;
+  }
 
-  debug(message: string, data?: unknown) { this.log("debug", message, data); }
-  info(message: string, data?: unknown)  { this.log("info", message, data); }
-  warn(message: string, data?: unknown)  { this.log("warn", message, data); }
-  error(message: string, data?: unknown) { this.log("error", message, data); }
+  debug(message: string, data?: unknown) {
+    this.log("debug", message, data);
+  }
+  info(message: string, data?: unknown) {
+    this.log("info", message, data);
+  }
+  warn(message: string, data?: unknown) {
+    this.log("warn", message, data);
+  }
+  error(message: string, data?: unknown) {
+    this.log("error", message, data);
+  }
 
   private log(level: LogLevel, message: string, data?: unknown) {
     if (process.env.NODE_ENV === "production" && level === "debug") return;
-    const entry: LogEntry = { timestamp: new Date().toISOString(), level, context: this.context, message, data };
+    const entry: LogEntry = {
+      timestamp: new Date().toISOString(),
+      level,
+      context: this.context,
+      message,
+      data,
+    };
     const logFn = level === "error" ? console.error : level === "warn" ? console.warn : console.log;
     logFn(`[${entry.timestamp}] [${level.toUpperCase()}] [${this.context}] ${message}`);
     // Envia a servicio de logging si esta configurado
@@ -33,7 +49,8 @@ class LoggerService {
 
   private async sendToEndpoint(entry: LogEntry) {
     await fetch(process.env.LOG_ENDPOINT!, {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(entry),
     });
   }

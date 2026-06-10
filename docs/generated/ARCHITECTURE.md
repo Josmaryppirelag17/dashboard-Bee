@@ -1,8 +1,8 @@
 # Architecture
 
-> Generado: 2026-06-07  
-> Plataforma: **Web (Next.js)**  
-> Modulos: 17
+> Generated: 2026-06-07  
+> Platform: **Web (Next.js)**  
+> Modules: 17
 
 ---
 

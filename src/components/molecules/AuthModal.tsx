@@ -10,17 +10,40 @@ import { X, Loader2, LogIn, UserPlus, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 interface AuthTranslations {
-  signIn: string; signUp: string; welcomeBack: string; joinSwarm: string;
-  email: string; username: string; name: string; lastName: string;
-  password: string; confirmPassword: string; signingIn: string;
-  creatingAccount: string; loginFailed: string; registrationFailed: string;
-  emailPlaceholder: string; usernamePlaceholder: string; namePlaceholder: string;
-  lastNamePlaceholder: string; passwordPlaceholder: string; confirmPlaceholder: string;
-  passwordRequired: string; passwordMin: string; passwordsNoMatch: string;
-  nameRequired: string; lastNameRequired: string; usernameMin: string;
-  usernameRegex: string; invalidEmail: string; closeModal: string;
-  passwordReqLength: string; passwordReqUppercase: string; passwordReqNumber: string;
-  passwordReqSpecial: string; forgotPassword: string;
+  signIn: string;
+  signUp: string;
+  welcomeBack: string;
+  joinSwarm: string;
+  email: string;
+  username: string;
+  name: string;
+  lastName: string;
+  password: string;
+  confirmPassword: string;
+  signingIn: string;
+  creatingAccount: string;
+  loginFailed: string;
+  registrationFailed: string;
+  emailPlaceholder: string;
+  usernamePlaceholder: string;
+  namePlaceholder: string;
+  lastNamePlaceholder: string;
+  passwordPlaceholder: string;
+  confirmPlaceholder: string;
+  passwordRequired: string;
+  passwordMin: string;
+  passwordsNoMatch: string;
+  nameRequired: string;
+  lastNameRequired: string;
+  usernameMin: string;
+  usernameRegex: string;
+  invalidEmail: string;
+  closeModal: string;
+  passwordReqLength: string;
+  passwordReqUppercase: string;
+  passwordReqNumber: string;
+  passwordReqSpecial: string;
+  forgotPassword: string;
 }
 
 const translations: Record<"es" | "en", AuthTranslations> = {
@@ -116,17 +139,23 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const registerSchema = z.object({
-  email: z.string().email("Invalid email"),
-  username: z.string().min(3, "Minimum 3 characters").max(50).regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers and underscores"),
-  name: z.string().min(1, "Name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  password: z.string().min(8, "Minimum 8 characters"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+const registerSchema = z
+  .object({
+    email: z.string().email("Invalid email"),
+    username: z
+      .string()
+      .min(3, "Minimum 3 characters")
+      .max(50)
+      .regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers and underscores"),
+    name: z.string().min(1, "Name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    password: z.string().min(8, "Minimum 8 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type LoginForm = z.infer<typeof loginSchema>;
 type RegisterForm = z.infer<typeof registerSchema>;
@@ -154,7 +183,14 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
   const registerForm = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { email: "", username: "", name: "", lastName: "", password: "", confirmPassword: "" },
+    defaultValues: {
+      email: "",
+      username: "",
+      name: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const watchPassword = registerForm.watch("password");
@@ -238,7 +274,13 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
   const handleRegister = async (data: RegisterForm) => {
     setSubmitting(true);
     setError(null);
-    const result = await register(data.email, data.username, data.name, data.lastName, data.password);
+    const result = await register(
+      data.email,
+      data.username,
+      data.name,
+      data.lastName,
+      data.password,
+    );
     setSubmitting(false);
     if (result.success) {
       onClose();
@@ -265,10 +307,18 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <svg viewBox="0 0 100 100" className="w-8 h-8 fill-[#e28800]" aria-hidden="true">
-                <path d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z" fillOpacity="0.15" stroke="#e28800" strokeWidth="4" />
+                <path
+                  d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z"
+                  fillOpacity="0.15"
+                  stroke="#e28800"
+                  strokeWidth="4"
+                />
               </svg>
               <div>
-                <h2 id="auth-modal-title" className="text-sm font-black text-[#100f0d] uppercase tracking-wider">
+                <h2
+                  id="auth-modal-title"
+                  className="text-sm font-black text-[#100f0d] uppercase tracking-wider"
+                >
                   {tab === "login" ? t.signIn : t.signUp}
                 </h2>
                 <p className="text-[10px] text-[#5c5449] font-semibold">
@@ -287,7 +337,11 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           </div>
 
           {/* Tab switcher */}
-          <div className="flex mt-4 bg-white border border-[#ebdcb9]/60 rounded-xl p-0.5" role="tablist" aria-label="Authentication method">
+          <div
+            className="flex mt-4 bg-white border border-[#ebdcb9]/60 rounded-xl p-0.5"
+            role="tablist"
+            aria-label="Authentication method"
+          >
             <button
               type="button"
               role="tab"
@@ -323,7 +377,10 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
         {/* Error */}
         {error && (
-          <div className="mx-6 mt-4 px-3 py-2 bg-red-50 border border-red-200 rounded-xl text-[11px] font-bold text-red-700" role="alert">
+          <div
+            className="mx-6 mt-4 px-3 py-2 bg-red-50 border border-red-200 rounded-xl text-[11px] font-bold text-red-700"
+            role="alert"
+          >
             {error}
           </div>
         )}
@@ -333,7 +390,10 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           {tab === "login" && (
             <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4" noValidate>
               <div>
-                <label htmlFor="login-email" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="login-email"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.email}
                 </label>
                 <input
@@ -345,11 +405,16 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder={t.emailPlaceholder}
                 />
                 {loginForm.formState.errors.email && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{loginForm.formState.errors.email.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {loginForm.formState.errors.email.message}
+                  </p>
                 )}
               </div>
               <div>
-                <label htmlFor="login-password" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="login-password"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.password}
                 </label>
                 <input
@@ -361,7 +426,9 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder="••••••••"
                 />
                 {loginForm.formState.errors.password && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{loginForm.formState.errors.password.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {loginForm.formState.errors.password.message}
+                  </p>
                 )}
                 {/* Forgot password link */}
                 <div className="mt-1.5 text-right">
@@ -389,10 +456,17 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           )}
 
           {tab === "register" && (
-            <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4" noValidate>
+            <form
+              onSubmit={registerForm.handleSubmit(handleRegister)}
+              className="space-y-4"
+              noValidate
+            >
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="reg-name" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="reg-name"
+                    className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                  >
                     {t.name}
                   </label>
                   <input
@@ -404,11 +478,16 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                     placeholder={t.namePlaceholder}
                   />
                   {registerForm.formState.errors.name && (
-                    <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.name.message}</p>
+                    <p className="mt-1 text-[10px] font-bold text-red-600">
+                      {registerForm.formState.errors.name.message}
+                    </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="reg-lastName" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="reg-lastName"
+                    className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                  >
                     {t.lastName}
                   </label>
                   <input
@@ -420,12 +499,17 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                     placeholder={t.lastNamePlaceholder}
                   />
                   {registerForm.formState.errors.lastName && (
-                    <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.lastName.message}</p>
+                    <p className="mt-1 text-[10px] font-bold text-red-600">
+                      {registerForm.formState.errors.lastName.message}
+                    </p>
                   )}
                 </div>
               </div>
               <div>
-                <label htmlFor="reg-username" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="reg-username"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.username}
                 </label>
                 <input
@@ -437,11 +521,16 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder={t.usernamePlaceholder}
                 />
                 {registerForm.formState.errors.username && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.username.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {registerForm.formState.errors.username.message}
+                  </p>
                 )}
               </div>
               <div>
-                <label htmlFor="reg-email" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="reg-email"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.email}
                 </label>
                 <input
@@ -453,11 +542,16 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder={t.emailPlaceholder}
                 />
                 {registerForm.formState.errors.email && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.email.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {registerForm.formState.errors.email.message}
+                  </p>
                 )}
               </div>
               <div>
-                <label htmlFor="reg-password" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="reg-password"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.password}
                 </label>
                 <input
@@ -469,20 +563,28 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder={t.passwordPlaceholder}
                 />
                 {registerForm.formState.errors.password && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.password.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {registerForm.formState.errors.password.message}
+                  </p>
                 )}
                 {/* Dynamic password requirements checklist */}
                 {watchPassword && watchPassword.length > 0 && (
                   <div className="mt-2 bg-white border border-[#ebdcb9] rounded-xl p-3 space-y-1.5">
-                    <p className="text-[9px] font-black text-[#5c5449] uppercase tracking-wider mb-1">REQUISITOS:</p>
+                    <p className="text-[9px] font-black text-[#5c5449] uppercase tracking-wider mb-1">
+                      REQUISITOS:
+                    </p>
                     {PASSWORD_CHECKS.map((check) => {
                       const passed = check.test(watchPassword ?? "");
                       return (
                         <div key={check.key} className="flex items-center gap-2">
-                          <span className={`text-[10px] font-bold ${passed ? "text-[#4a7c1a]" : "text-[#b8a98c]"}`}>
+                          <span
+                            className={`text-[10px] font-bold ${passed ? "text-[#4a7c1a]" : "text-[#b8a98c]"}`}
+                          >
                             {passed ? "[✓]" : "[ ]"}
                           </span>
-                          <span className={`text-[10px] font-semibold ${passed ? "text-[#4a7c1a]" : "text-[#5c5449]"}`}>
+                          <span
+                            className={`text-[10px] font-semibold ${passed ? "text-[#4a7c1a]" : "text-[#5c5449]"}`}
+                          >
                             {t[check.label]}
                           </span>
                         </div>
@@ -492,7 +594,10 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                 )}
               </div>
               <div>
-                <label htmlFor="reg-confirm" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="reg-confirm"
+                  className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1"
+                >
                   {t.confirmPassword}
                 </label>
                 <input
@@ -504,7 +609,9 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
                   placeholder={t.confirmPlaceholder}
                 />
                 {registerForm.formState.errors.confirmPassword && (
-                  <p className="mt-1 text-[10px] font-bold text-red-600">{registerForm.formState.errors.confirmPassword.message}</p>
+                  <p className="mt-1 text-[10px] font-bold text-red-600">
+                    {registerForm.formState.errors.confirmPassword.message}
+                  </p>
                 )}
               </div>
               <button

@@ -13,7 +13,10 @@ export async function POST(request: NextRequest) {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
     const body = await request.json();
@@ -23,25 +26,32 @@ export async function POST(request: NextRequest) {
       await db.delete(tasksSchema).where(eq(tasksSchema.userId, user.id));
 
       if (localTasks.length > 0) {
-        const inserts: typeof tasksSchema.$inferInsert[] = localTasks.map((t: Record<string, unknown>) => ({
-          userId: user.id,
-          taskId: String(t.taskId ?? t.id ?? ""),
-          title: String(t.title ?? ""),
-          completed: Boolean(t.completed ?? false),
-          priority: String(t.priority ?? "MEDIUM"),
-          category: String(t.category ?? ""),
-          pollenUnits: Number(t.pollenUnits ?? 1),
-          columnId: String(t.columnId ?? "todo"),
-          notes: t.notes != null ? String(t.notes) : null,
-          dueDate: t.dueDate != null ? String(t.dueDate) : null,
-        }));
+        const inserts: (typeof tasksSchema.$inferInsert)[] = localTasks.map(
+          (t: Record<string, unknown>) => ({
+            userId: user.id,
+            taskId: String(t.taskId ?? t.id ?? ""),
+            title: String(t.title ?? ""),
+            completed: Boolean(t.completed ?? false),
+            priority: String(t.priority ?? "MEDIUM"),
+            category: String(t.category ?? ""),
+            pollenUnits: Number(t.pollenUnits ?? 1),
+            columnId: String(t.columnId ?? "todo"),
+            notes: t.notes != null ? String(t.notes) : null,
+            dueDate: t.dueDate != null ? String(t.dueDate) : null,
+          }),
+        );
         await db.insert(tasksSchema).values(inserts);
       }
     }
 
     if (localStats && typeof localStats === "object") {
       const statsUpdate: Record<string, unknown> = {};
-      const stringFields = ["weeklyFocusMins", "weeklyTasksCompleted", "unlockedAchievements", "claimedQuests"];
+      const stringFields = [
+        "weeklyFocusMins",
+        "weeklyTasksCompleted",
+        "unlockedAchievements",
+        "claimedQuests",
+      ];
       for (const key of stringFields) {
         if (localStats[key] !== undefined) {
           statsUpdate[key] = JSON.stringify(localStats[key]);
@@ -62,10 +72,7 @@ export async function POST(request: NextRequest) {
           .limit(1);
 
         if (existing) {
-          await db
-            .update(userStats)
-            .set(statsUpdate)
-            .where(eq(userStats.userId, user.id));
+          await db.update(userStats).set(statsUpdate).where(eq(userStats.userId, user.id));
         } else {
           await db.insert(userStats).values({
             userId: user.id,
@@ -75,10 +82,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const cloudTasks = await db
-      .select()
-      .from(tasksSchema)
-      .where(eq(tasksSchema.userId, user.id));
+    const cloudTasks = await db.select().from(tasksSchema).where(eq(tasksSchema.userId, user.id));
 
     const [cloudStats] = await db
       .select()
@@ -107,7 +111,9 @@ export async function POST(request: NextRequest) {
               totalFocusMins: cloudStats.totalFocusMins ?? 0,
               streakCount: cloudStats.streakCount ?? 0,
               weeklyFocusMins: JSON.parse(cloudStats.weeklyFocusMins ?? "[0,0,0,0,0,0,0]"),
-              weeklyTasksCompleted: JSON.parse(cloudStats.weeklyTasksCompleted ?? "[0,0,0,0,0,0,0]"),
+              weeklyTasksCompleted: JSON.parse(
+                cloudStats.weeklyTasksCompleted ?? "[0,0,0,0,0,0,0]",
+              ),
               userBeeName: cloudStats.userBeeName ?? "",
               unlockedAchievements: JSON.parse(cloudStats.unlockedAchievements ?? "[]"),
               claimedQuests: JSON.parse(cloudStats.claimedQuests ?? "[]"),

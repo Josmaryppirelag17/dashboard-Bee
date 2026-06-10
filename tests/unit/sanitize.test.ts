@@ -14,10 +14,10 @@ describe("sanitizeInput", () => {
   });
 
   it("escapes HTML special characters", () => {
-    expect(sanitizeInput("<script>alert('xss')</script>"))
-      .toBe("&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;");
-    expect(sanitizeInput('"hello" & "world"'))
-      .toBe("&quot;hello&quot; &amp; &quot;world&quot;");
+    expect(sanitizeInput("<script>alert('xss')</script>")).toBe(
+      "&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;",
+    );
+    expect(sanitizeInput('"hello" & "world"')).toBe("&quot;hello&quot; &amp; &quot;world&quot;");
   });
 
   it("preserves safe text", () => {

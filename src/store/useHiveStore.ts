@@ -64,13 +64,19 @@ interface HiveState {
 }
 
 const safeLocalGet = (key: string, fallback: string): string => {
-  try { return localStorage.getItem(key) || fallback; } catch { /* private browsing */ return fallback; }
+  try {
+    return localStorage.getItem(key) || fallback;
+  } catch {
+    /* private browsing */ return fallback;
+  }
 };
-const safeJSONGet = <T,>(key: string, fallback: T): T => {
+const safeJSONGet = <T>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
-  } catch { /* storage unavailable */ return fallback; }
+  } catch {
+    /* storage unavailable */ return fallback;
+  }
 };
 
 let _dbCache: BeehiveDatabase | null = null;
@@ -114,7 +120,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
       set({
         streakCount: parseInt(safeLocalGet("beehive_streakCount", "0"), 10),
         totalFocusMins: parseInt(safeLocalGet("beehive_totalFocusMins", "0"), 10),
-        language: (safeLocalGet("beehive_language", "es") as "es" | "en"),
+        language: safeLocalGet("beehive_language", "es") as "es" | "en",
         weeklyFocusMins: safeJSONGet("beehive_weeklyFocusMins", [0, 0, 0, 0, 0, 0, 0]),
         weeklyTasksCompleted: safeJSONGet("beehive_weeklyTasksCompleted", [0, 0, 0, 0, 0, 0, 0]),
         xp: parseInt(safeLocalGet("beehive_xp", "0"), 10),
@@ -134,10 +140,16 @@ export const useHiveStore = create<HiveState>((set, get) => ({
   setInAppHelpOpen: (inAppHelpOpen) => set({ inAppHelpOpen }),
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   setLanguage: (language) => {
-    try { localStorage.setItem("beehive_language", language); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem("beehive_language", language);
+    } catch {
+      /* private browsing */
+    }
     set({ language });
     try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       const audioCtx = new AudioCtx();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -150,7 +162,9 @@ export const useHiveStore = create<HiveState>((set, get) => ({
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.12);
-    } catch { /* audio not available */ }
+    } catch {
+      /* audio not available */
+    }
   },
 
   triggerSavingState: async (operation: () => Promise<void>) => {
@@ -234,7 +248,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
 
     await get().triggerSavingState(async () => {
       if (userId) {
-        await api.put("/api/tasks", { taskId, columnId: targetColumnId, completed: isCompletedColumn });
+        await api.put("/api/tasks", {
+          taskId,
+          columnId: targetColumnId,
+          completed: isCompletedColumn,
+        });
       } else {
         const db = await getDB();
         await db.tasks.update(taskId, {
@@ -254,7 +272,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
         if (isCompletedColumn && !wasCompleted) {
           const dayIdx = (new Date().getDay() + 6) % 7;
           nextWeeklyTasks[dayIdx] = (nextWeeklyTasks[dayIdx] || 0) + 1;
-          try { localStorage.setItem("beehive_weeklyTasksCompleted", JSON.stringify(nextWeeklyTasks)); } catch { /* private browsing */ }
+          try {
+            localStorage.setItem("beehive_weeklyTasksCompleted", JSON.stringify(nextWeeklyTasks));
+          } catch {
+            /* private browsing */
+          }
 
           const pollenOfTask = found?.pollenUnits || 1;
           setTimeout(() => {
@@ -316,9 +338,13 @@ export const useHiveStore = create<HiveState>((set, get) => ({
         if (nextCompleted) {
           const dayIdx = (new Date().getDay() + 6) % 7;
           nextWeeklyTasks[dayIdx] = (nextWeeklyTasks[dayIdx] || 0) + 1;
-            try { localStorage.setItem("beehive_weeklyTasksCompleted", JSON.stringify(nextWeeklyTasks)); } catch { /* private browsing */ }
+          try {
+            localStorage.setItem("beehive_weeklyTasksCompleted", JSON.stringify(nextWeeklyTasks));
+          } catch {
+            /* private browsing */
+          }
 
-            const pollenOfTask = task.pollenUnits || 1;
+          const pollenOfTask = task.pollenUnits || 1;
           setTimeout(() => {
             get().unlockAchievement("harvest-honey");
             if (pollenOfTask >= 5) {
@@ -359,7 +385,9 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     const { userId } = get();
     await get().triggerSavingState(async () => {
       if (userId) {
-        await Promise.all(completedIds.map((id) => api.delete(`/api/tasks?taskId=${encodeURIComponent(id)}`)));
+        await Promise.all(
+          completedIds.map((id) => api.delete(`/api/tasks?taskId=${encodeURIComponent(id)}`)),
+        );
       } else {
         const db = await getDB();
         await Promise.all(completedIds.map((id) => db.tasks.delete(id)));
@@ -382,15 +410,19 @@ export const useHiveStore = create<HiveState>((set, get) => ({
         localStorage.setItem("beehive_totalFocusMins", String(nextMins));
         localStorage.setItem("beehive_streakCount", String(nextStreak));
         localStorage.setItem("beehive_weeklyFocusMins", JSON.stringify(nextWeeklyFocus));
-      } catch { /* private browsing */ }
+      } catch {
+        /* private browsing */
+      }
 
       const { userId } = get();
       if (userId) {
-        api.put("/api/stats", {
-          totalFocusMins: nextMins,
-          streakCount: nextStreak,
-          weeklyFocusMins: nextWeeklyFocus,
-        }).catch(() => {});
+        api
+          .put("/api/stats", {
+            totalFocusMins: nextMins,
+            streakCount: nextStreak,
+            weeklyFocusMins: nextWeeklyFocus,
+          })
+          .catch(() => {});
       }
 
       setTimeout(() => {
@@ -409,7 +441,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
   },
 
   setStreakCount: (streakCount) => {
-    try { localStorage.setItem("beehive_streakCount", String(streakCount)); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem("beehive_streakCount", String(streakCount));
+    } catch {
+      /* private browsing */
+    }
     set({ streakCount });
     const { userId } = get();
     if (userId) {
@@ -433,7 +469,9 @@ export const useHiveStore = create<HiveState>((set, get) => ({
       try {
         localStorage.setItem("beehive_xp", String(finalXp));
         localStorage.setItem("beehive_level", String(nextLevel));
-      } catch { /* private browsing */ }
+      } catch {
+        /* private browsing */
+      }
 
       const { userId } = get();
       if (userId) {
@@ -442,7 +480,9 @@ export const useHiveStore = create<HiveState>((set, get) => ({
 
       if (leveledUp) {
         try {
-          const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          const AudioCtx =
+            window.AudioContext ||
+            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
           const audioCtx = new AudioCtx();
           const playNote = (freq: number, start: number, duration: number) => {
             const osc = audioCtx.createOscillator();
@@ -460,10 +500,14 @@ export const useHiveStore = create<HiveState>((set, get) => ({
           playNote(659.25, audioCtx.currentTime + 0.15, 0.15);
           playNote(783.99, audioCtx.currentTime + 0.3, 0.15);
           playNote(1046.5, audioCtx.currentTime + 0.45, 0.4);
-        } catch { /* private browsing */ }
+        } catch {
+          /* private browsing */
+        }
       } else {
         try {
-          const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          const AudioCtx =
+            window.AudioContext ||
+            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
           const audioCtx = new AudioCtx();
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
@@ -476,7 +520,9 @@ export const useHiveStore = create<HiveState>((set, get) => ({
           gain.connect(audioCtx.destination);
           osc.start();
           osc.stop(audioCtx.currentTime + 0.08);
-        } catch { /* private browsing */ }
+        } catch {
+          /* private browsing */
+        }
       }
 
       return {
@@ -487,7 +533,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
   },
 
   setUserBeeName: (userBeeName) => {
-    try { localStorage.setItem("beehive_userBeeName", userBeeName); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem("beehive_userBeeName", userBeeName);
+    } catch {
+      /* private browsing */
+    }
     set({ userBeeName });
     const { userId } = get();
     if (userId) {
@@ -500,7 +550,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     if (list.includes(id)) return;
 
     const nextList = [...list, id];
-    try { localStorage.setItem("beehive_unlockedAchievements", JSON.stringify(nextList)); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem("beehive_unlockedAchievements", JSON.stringify(nextList));
+    } catch {
+      /* private browsing */
+    }
     set({ unlockedAchievements: nextList });
 
     const { userId } = get();
@@ -551,7 +605,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     const claimed = get().claimedQuests;
     if (claimed.includes(questId)) return;
     const nextClaimed = [...claimed, questId];
-    try { localStorage.setItem("beehive_claimedQuests", JSON.stringify(nextClaimed)); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem("beehive_claimedQuests", JSON.stringify(nextClaimed));
+    } catch {
+      /* private browsing */
+    }
     set({ claimedQuests: nextClaimed });
     const { userId } = get();
     if (userId) {

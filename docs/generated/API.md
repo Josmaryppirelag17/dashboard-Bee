@@ -1,38 +1,38 @@
 # API Reference
 
-> Generado: 2026-06-07
-> Plataforma: **Web (Next.js) — Client-side SPA**
+> Generated: 2026-06-07
+> Platform: **Web (Next.js) — Client-side SPA**
 > Endpoints: 3 (health/status)
 
 ---
 
-## Arquitectura
+## Architecture
 
-Esta aplicación es principalmente **client-side**. Los datos de tareas, sesiones y gamificación se almacenan en **IndexedDB** (navegador) mediante Dexie.js. No requiere backend ni base de datos externa para su funcionamiento principal.
+This application is primarily **client-side**. Task, session, and gamification data is stored in **IndexedDB** (browser) via Dexie.js. No backend or external database is required for its core functionality.
 
 ## Next.js API Endpoints
 
-| Método | Ruta | Descripción |
+| Method | Route | Description |
 |--------|------|-------------|
-| `GET` | `/api/health` | Health check del servidor |
-| `GET` | `/api/latest` | Versión actual de la API |
-| `GET` | `/api/v1` | Endpoint API v1 (placeholder) |
+| `GET` | `/api/health` | Server health check |
+| `GET` | `/api/latest` | Current API version |
+| `GET` | `/api/v1` | API v1 endpoint (placeholder) |
 
 ### `GET /api/health`
-**Archivo:** `src/app/api/health/route.ts`
-**Retorna:** `{ status: "ok", timestamp: string }`
+**File:** `src/app/api/health/route.ts`
+**Returns:** `{ status: "ok", timestamp: string }`
 
 ---
 
-## Persistencia (Client-side)
+## Persistence (Client-side)
 
-| Almacenamiento | Tecnología | Propósito |
+| Storage | Technology | Purpose |
 |---------------|------------|-----------|
-| IndexedDB | Dexie.js | Tareas, notas, configuraciones |
-| localStorage | — | XP, nivel, logros, rachas, métricas semanales, deviceId de sesión |
+| IndexedDB | Dexie.js | Tasks, notes, settings |
+| localStorage | — | XP, level, achievements, streaks, weekly metrics, session deviceId |
 
-## Exportación de datos
+## Data Export
 
-- **Formato:** CSV (UTF-8 BOM, compatible con Excel)
-- **Headers:** ID, Título, Completado, Prioridad, Categoría, Pollen/Esfuerzo, Columna, Notas
-- **Importación:** Parseo inteligente con soporte ES/EN
+- **Format:** CSV (UTF-8 BOM, Excel-compatible)
+- **Headers:** ID, Title, Completed, Priority, Category, Pollen/Effort, Column, Notes
+- **Import:** Smart parsing with ES/EN support

@@ -7,13 +7,14 @@ import { eq } from "drizzle-orm";
 
 const registerSchema = z.object({
   email: z.string().email("Invalid email address"),
-  username: z.string().min(3, "Username must be at least 3 characters").max(50).regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers and underscores"),
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(50)
+    .regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers and underscores"),
   name: z.string().min(1, "Name is required").max(100),
   lastName: z.string().min(1, "Last name is required").max(100),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(128),
+  password: z.string().min(8, "Password must be at least 8 characters").max(128),
 });
 
 export async function POST(request: NextRequest) {
@@ -50,11 +51,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const [existingEmail] = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, email))
-      .limit(1);
+    const [existingEmail] = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
     if (existingEmail) {
       return NextResponse.json(

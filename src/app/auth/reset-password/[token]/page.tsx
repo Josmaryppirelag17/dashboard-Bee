@@ -17,7 +17,8 @@ const tMap = {
     submitting: "Procesando...",
     passwordMin: "Mínimo 8 caracteres",
     passwordsNoMatch: "Las contraseñas no coinciden",
-    success: "Tu contraseña ha sido restablecida exitosamente. Todas las sesiones han sido cerradas.",
+    success:
+      "Tu contraseña ha sido restablecida exitosamente. Todas las sesiones han sido cerradas.",
     error: "Error al restablecer",
     networkError: "Error de red",
     back: "Iniciar Sesión",
@@ -92,9 +93,16 @@ export default function ResetPasswordPage() {
           <div className="px-6 pt-6 pb-4 border-b border-[#b8d98c]/60">
             <div className="flex items-center space-x-3">
               <svg viewBox="0 0 100 100" className="w-8 h-8 fill-[#4a7c1a]" aria-hidden="true">
-                <path d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z" fillOpacity="0.15" stroke="#4a7c1a" strokeWidth="4" />
+                <path
+                  d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z"
+                  fillOpacity="0.15"
+                  stroke="#4a7c1a"
+                  strokeWidth="4"
+                />
               </svg>
-              <h1 className="text-sm font-black text-[#100f0d] uppercase tracking-wider">{t.title}</h1>
+              <h1 className="text-sm font-black text-[#100f0d] uppercase tracking-wider">
+                {t.title}
+              </h1>
             </div>
           </div>
           <div className="p-6 space-y-5">
@@ -120,15 +128,25 @@ export default function ResetPasswordPage() {
         <div className="relative px-6 pt-6 pb-4 border-b border-[#ebdcb9]/60">
           <div className="flex items-center space-x-3">
             <svg viewBox="0 0 100 100" className="w-8 h-8 fill-[#e28800]" aria-hidden="true">
-              <path d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z" fillOpacity="0.15" stroke="#e28800" strokeWidth="4" />
+              <path
+                d="M 50 0 L 93 25 L 93 75 L 50 100 L 7 75 L 7 25 Z"
+                fillOpacity="0.15"
+                stroke="#e28800"
+                strokeWidth="4"
+              />
             </svg>
-            <h1 className="text-sm font-black text-[#100f0d] uppercase tracking-wider">{t.title}</h1>
+            <h1 className="text-sm font-black text-[#100f0d] uppercase tracking-wider">
+              {t.title}
+            </h1>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label htmlFor="bee-new-password" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1.5">
+            <label
+              htmlFor="bee-new-password"
+              className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1.5"
+            >
               {t.newPassword}
             </label>
             <input
@@ -145,7 +163,10 @@ export default function ResetPasswordPage() {
           </div>
 
           <div>
-            <label htmlFor="bee-confirm-password" className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1.5">
+            <label
+              htmlFor="bee-confirm-password"
+              className="block text-[10px] font-bold text-[#5c5449] uppercase tracking-wider mb-1.5"
+            >
               {t.confirmPassword}
             </label>
             <input
@@ -171,7 +192,11 @@ export default function ResetPasswordPage() {
             disabled={submitting}
             className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-[#faa715] text-[#100f0d] font-bold rounded-xl text-xs uppercase tracking-wider shadow-[0_4px_16px_rgba(226,136,0,0.18)] hover:shadow-[0_4px_25px_rgba(226,136,0,0.3)] disabled:opacity-60 disabled:cursor-not-allowed transition-all"
           >
-            {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {submitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Sparkles className="w-4 h-4" />
+            )}
             <span>{submitting ? t.submitting : t.submit}</span>
           </button>
         </form>

@@ -1,11 +1,4 @@
-import {
-  serial,
-  varchar,
-  text,
-  timestamp,
-  integer,
-  boolean,
-} from "drizzle-orm/pg-core";
+import { serial, varchar, text, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { pgSchema } from "drizzle-orm/pg-core";
 
 const bee = pgSchema("bee");
@@ -44,7 +37,9 @@ export const sessions = bee.table("sessions", {
 
 export const tasks = bee.table("tasks", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   taskId: varchar("task_id", { length: 255 }).notNull(),
   title: varchar("title", { length: 500 }).notNull(),
   completed: boolean("completed").default(false),
@@ -60,13 +55,18 @@ export const tasks = bee.table("tasks", {
 
 export const userStats = bee.table("user_stats", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  userId: integer("user_id")
+    .notNull()
+    .unique()
+    .references(() => users.id, { onDelete: "cascade" }),
   xp: integer("xp").default(0),
   level: integer("level").default(1),
   totalFocusMins: integer("total_focus_mins").default(0),
   streakCount: integer("streak_count").default(0),
   weeklyFocusMins: varchar("weekly_focus_mins", { length: 500 }).default("[0,0,0,0,0,0,0]"),
-  weeklyTasksCompleted: varchar("weekly_tasks_completed", { length: 500 }).default("[0,0,0,0,0,0,0]"),
+  weeklyTasksCompleted: varchar("weekly_tasks_completed", { length: 500 }).default(
+    "[0,0,0,0,0,0,0]",
+  ),
   userBeeName: varchar("user_bee_name", { length: 100 }).default(""),
   unlockedAchievements: text("unlocked_achievements").default("[]"),
   claimedQuests: text("claimed_quests").default("[]"),

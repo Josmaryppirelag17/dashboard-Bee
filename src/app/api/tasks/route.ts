@@ -13,13 +13,13 @@ export async function GET() {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
-    const rows = await db
-      .select()
-      .from(tasksSchema)
-      .where(eq(tasksSchema.userId, user.id));
+    const rows = await db.select().from(tasksSchema).where(eq(tasksSchema.userId, user.id));
 
     const data = rows.map((r) => ({
       id: r.taskId,
@@ -48,15 +48,22 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { taskId, title, completed, priority, category, pollenUnits, columnId, notes, dueDate } = body;
+    const { taskId, title, completed, priority, category, pollenUnits, columnId, notes, dueDate } =
+      body;
 
     if (!taskId || !title) {
-      return NextResponse.json({ success: false, error: "taskId and title are required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "taskId and title are required" },
+        { status: 400 },
+      );
     }
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
     await db.insert(tasksSchema).values({
@@ -95,10 +102,22 @@ export async function PUT(request: NextRequest) {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
-    const allowedFields = ["title", "completed", "priority", "category", "pollenUnits", "columnId", "notes", "dueDate"];
+    const allowedFields = [
+      "title",
+      "completed",
+      "priority",
+      "category",
+      "pollenUnits",
+      "columnId",
+      "notes",
+      "dueDate",
+    ];
     const updateData: Record<string, unknown> = {};
     for (const field of allowedFields) {
       if (updates[field] !== undefined) {
@@ -133,12 +152,18 @@ export async function DELETE(request: NextRequest) {
     const taskId = searchParams.get("taskId");
 
     if (!taskId) {
-      return NextResponse.json({ success: false, error: "taskId query param is required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "taskId query param is required" },
+        { status: 400 },
+      );
     }
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ success: false, error: "Database not configured" }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: "Database not configured" },
+        { status: 503 },
+      );
     }
 
     await db
