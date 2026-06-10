@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getDb } from "@/lib/db/connection";
 import { users } from "@/lib/db/schema";
 import { verifyPassword, createSession, setSessionCookie } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { eq, or } from "drizzle-orm";
 
 const loginSchema = z.object({
@@ -12,6 +13,21 @@ const loginSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = getClientIp(request);
+    const result = checkRateLimit(ip, 5, 15 * 60 * 1000);
+    if (!result.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "RATE_LIMITED",
+            message: "Too many attempts. Try again later.",
+          },
+        },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const parsed = loginSchema.safeParse(body);
 

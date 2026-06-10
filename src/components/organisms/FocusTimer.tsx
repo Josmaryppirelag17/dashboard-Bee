@@ -3,6 +3,7 @@ import { Play, Pause, RotateCcw, Volume2, VolumeX, Award, Check } from "lucide-r
 import { motion } from "motion/react";
 import { useHiveStore } from "@/store/useHiveStore";
 import { useBeeToasts } from "@/context/BeeToastContext";
+import { playTone } from "@/utils/audio";
 import { translations } from "@/utils/translations";
 
 interface FocusTimerProps {
@@ -119,23 +120,7 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ onSessionComplete }) => 
     setIsRunning(false);
 
     if (soundEnabled) {
-      try {
-        const AudioCtx =
-          window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-        const audioCtx = new AudioCtx();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        oscillator.type = "sine";
-        oscillator.frequency.value = 520;
-        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 1.0);
-      } catch (err) {
-        console.warn("Audio API error:", err);
-      }
+      playTone({ frequency: 520, type: "sine", gain: 0.2, duration: 1.0 });
     }
 
     if (!isBreak) {

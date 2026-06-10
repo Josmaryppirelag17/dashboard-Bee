@@ -80,43 +80,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const json = await res.json();
       if (json.success) {
         setUser(json.data.user);
+        const store = useHiveStore.getState();
+        store.setUserId(json.data.user.id);
+
+        // Pull cloud data first (ensures cross-device persistence)
+        await store.loadTasks();
+        let cloudStats: Record<string, unknown> | null = null;
+        try {
+          const statsRes = await fetch("/api/stats");
+          const statsJson = await statsRes.json();
+          if (statsJson.success && statsJson.data) cloudStats = statsJson.data;
+        } catch {
+          /* stats fetch best-effort */
+        }
+
+        // Merge local + cloud, then push to cloud
         const state = useHiveStore.getState();
-        const {
-          tasks,
-          xp,
-          level,
-          totalFocusMins,
-          streakCount,
-          weeklyFocusMins,
-          weeklyTasksCompleted,
-          userBeeName,
-          unlockedAchievements,
-          claimedQuests,
-        } = state;
+        const mergedStats = cloudStats
+          ? {
+              xp: Math.max(state.xp, (cloudStats.xp as number) ?? 0),
+              level: Math.max(state.level, (cloudStats.level as number) ?? 1),
+              totalFocusMins: Math.max(
+                state.totalFocusMins,
+                (cloudStats.totalFocusMins as number) ?? 0,
+              ),
+              streakCount: Math.max(state.streakCount, (cloudStats.streakCount as number) ?? 0),
+              weeklyFocusMins: state.weeklyFocusMins,
+              weeklyTasksCompleted: state.weeklyTasksCompleted,
+              userBeeName: state.userBeeName || (cloudStats.userBeeName as string) || "",
+              unlockedAchievements: state.unlockedAchievements,
+              claimedQuests: state.claimedQuests,
+            }
+          : {
+              xp: state.xp,
+              level: state.level,
+              totalFocusMins: state.totalFocusMins,
+              streakCount: state.streakCount,
+              weeklyFocusMins: state.weeklyFocusMins,
+              weeklyTasksCompleted: state.weeklyTasksCompleted,
+              userBeeName: state.userBeeName,
+              unlockedAchievements: state.unlockedAchievements,
+              claimedQuests: state.claimedQuests,
+            };
         try {
           await fetch("/api/sync", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              tasks: tasks.map((t) => ({ ...t, taskId: t.id })),
-              stats: {
-                xp,
-                level,
-                totalFocusMins,
-                streakCount,
-                weeklyFocusMins,
-                weeklyTasksCompleted,
-                userBeeName,
-                unlockedAchievements,
-                claimedQuests,
-              },
+              tasks: state.tasks.map((t) => ({ ...t, taskId: t.id })),
+              stats: mergedStats,
             }),
           });
         } catch (e) {
           console.error("Sync after login failed:", e);
         }
-        useHiveStore.getState().setUserId(json.data.user.id);
-        useHiveStore.getState().loadTasks();
         return { success: true };
       }
       return {
@@ -139,43 +156,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const json = await res.json();
         if (json.success) {
           setUser(json.data.user);
+          const store = useHiveStore.getState();
+          store.setUserId(json.data.user.id);
+
           const state = useHiveStore.getState();
-          const {
-            tasks,
-            xp,
-            level,
-            totalFocusMins,
-            streakCount,
-            weeklyFocusMins,
-            weeklyTasksCompleted,
-            userBeeName,
-            unlockedAchievements,
-            claimedQuests,
-          } = state;
           try {
             await fetch("/api/sync", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                tasks: tasks.map((t) => ({ ...t, taskId: t.id })),
+                tasks: state.tasks.map((t) => ({ ...t, taskId: t.id })),
                 stats: {
-                  xp,
-                  level,
-                  totalFocusMins,
-                  streakCount,
-                  weeklyFocusMins,
-                  weeklyTasksCompleted,
-                  userBeeName,
-                  unlockedAchievements,
-                  claimedQuests,
+                  xp: state.xp,
+                  level: state.level,
+                  totalFocusMins: state.totalFocusMins,
+                  streakCount: state.streakCount,
+                  weeklyFocusMins: state.weeklyFocusMins,
+                  weeklyTasksCompleted: state.weeklyTasksCompleted,
+                  userBeeName: state.userBeeName,
+                  unlockedAchievements: state.unlockedAchievements,
+                  claimedQuests: state.claimedQuests,
                 },
               }),
             });
           } catch (e) {
             console.error("Sync after register failed:", e);
           }
-          useHiveStore.getState().setUserId(json.data.user.id);
-          useHiveStore.getState().loadTasks();
+          await store.loadTasks();
           return { success: true };
         }
         return {

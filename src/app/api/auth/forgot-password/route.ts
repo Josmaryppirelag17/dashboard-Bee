@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createPasswordResetToken } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const schema = z.object({
   email: z.string().email().max(255),
@@ -8,6 +9,21 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = getClientIp(request);
+    const rateLimit = checkRateLimit(ip, 3, 60 * 1000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "RATE_LIMITED",
+            message: "Too many attempts. Try again later.",
+          },
+        },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const parsed = schema.safeParse(body);
 

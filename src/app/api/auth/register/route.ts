@@ -3,6 +3,8 @@ import { z } from "zod";
 import { getDb } from "@/lib/db/connection";
 import { users } from "@/lib/db/schema";
 import { hashPassword, createSession, setSessionCookie } from "@/lib/auth";
+import { validatePassword } from "@/lib/password-validation";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { eq } from "drizzle-orm";
 
 const registerSchema = z.object({
@@ -19,6 +21,21 @@ const registerSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = getClientIp(request);
+    const result = checkRateLimit(ip, 5, 60 * 1000);
+    if (!result.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "RATE_LIMITED",
+            message: "Too many attempts. Try again later.",
+          },
+        },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const parsed = registerSchema.safeParse(body);
 
@@ -36,6 +53,20 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, username, name, lastName, password } = parsed.data;
+
+    const pwCheck = validatePassword(password);
+    if (!pwCheck.valid) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "WEAK_PASSWORD",
+            message: `Password must include: ${pwCheck.errors.join(", ")}`,
+          },
+        },
+        { status: 400 },
+      );
+    }
 
     const db = getDb();
     if (!db) {

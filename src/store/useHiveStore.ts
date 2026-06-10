@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { Task, PriorityLevel, ColumnId } from "../types";
 import { sanitizeInput } from "../utils/sanitize";
 import { secureRandomIndex } from "../utils/random";
+import { playTone, playArpeggio } from "../utils/audio";
 import type { BeehiveDatabase } from "../lib/db";
 import { api } from "../lib/api-client";
 
@@ -88,6 +89,10 @@ async function getDB(): Promise<BeehiveDatabase> {
   return _dbCache;
 }
 
+function fireAndForgetStats(data: Record<string, unknown>) {
+  api.put("/api/stats", data).catch(() => {});
+}
+
 let saveStatusTimeout: NodeJS.Timeout | null = null;
 
 const defaultBeeName = "ObreraZumbadora_" + (secureRandomIndex(900) + 100);
@@ -146,25 +151,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
       /* private browsing */
     }
     set({ language });
-    try {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const audioCtx = new AudioCtx();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(554.37, audioCtx.currentTime + 0.12);
-      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.12);
-    } catch {
-      /* audio not available */
-    }
+    playTone({ frequency: 440, endFrequency: 554.37 });
   },
 
   triggerSavingState: async (operation: () => Promise<void>) => {
@@ -416,13 +403,11 @@ export const useHiveStore = create<HiveState>((set, get) => ({
 
       const { userId } = get();
       if (userId) {
-        api
-          .put("/api/stats", {
-            totalFocusMins: nextMins,
-            streakCount: nextStreak,
-            weeklyFocusMins: nextWeeklyFocus,
-          })
-          .catch(() => {});
+        fireAndForgetStats({
+          totalFocusMins: nextMins,
+          streakCount: nextStreak,
+          weeklyFocusMins: nextWeeklyFocus,
+        });
       }
 
       setTimeout(() => {
@@ -449,7 +434,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     set({ streakCount });
     const { userId } = get();
     if (userId) {
-      api.put("/api/stats", { streakCount }).catch(() => {});
+      fireAndForgetStats({ streakCount });
     }
   },
 
@@ -475,54 +460,18 @@ export const useHiveStore = create<HiveState>((set, get) => ({
 
       const { userId } = get();
       if (userId) {
-        api.put("/api/stats", { xp: finalXp, level: nextLevel }).catch(() => {});
+        fireAndForgetStats({ xp: finalXp, level: nextLevel });
       }
 
       if (leveledUp) {
-        try {
-          const AudioCtx =
-            window.AudioContext ||
-            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-          const audioCtx = new AudioCtx();
-          const playNote = (freq: number, start: number, duration: number) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = "triangle";
-            osc.frequency.setValueAtTime(freq, start);
-            gain.gain.setValueAtTime(0.08, start);
-            gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(start);
-            osc.stop(start + duration);
-          };
-          playNote(523.25, audioCtx.currentTime, 0.15);
-          playNote(659.25, audioCtx.currentTime + 0.15, 0.15);
-          playNote(783.99, audioCtx.currentTime + 0.3, 0.15);
-          playNote(1046.5, audioCtx.currentTime + 0.45, 0.4);
-        } catch {
-          /* private browsing */
-        }
+        playArpeggio([
+          { frequency: 523.25, start: 0, duration: 0.15 },
+          { frequency: 659.25, start: 0.15, duration: 0.15 },
+          { frequency: 783.99, start: 0.3, duration: 0.15 },
+          { frequency: 1046.5, start: 0.45, duration: 0.4 },
+        ]);
       } else {
-        try {
-          const AudioCtx =
-            window.AudioContext ||
-            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-          const audioCtx = new AudioCtx();
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.08);
-          gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.08);
-        } catch {
-          /* private browsing */
-        }
+        playTone({ frequency: 800, endFrequency: 1200, type: "sine", gain: 0.03, duration: 0.08 });
       }
 
       return {
@@ -541,7 +490,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     set({ userBeeName });
     const { userId } = get();
     if (userId) {
-      api.put("/api/stats", { userBeeName }).catch(() => {});
+      fireAndForgetStats({ userBeeName });
     }
   },
 
@@ -559,7 +508,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
 
     const { userId } = get();
     if (userId) {
-      api.put("/api/stats", { unlockedAchievements: nextList }).catch(() => {});
+      fireAndForgetStats({ unlockedAchievements: nextList });
     }
 
     setTimeout(() => {
@@ -613,7 +562,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
     set({ claimedQuests: nextClaimed });
     const { userId } = get();
     if (userId) {
-      api.put("/api/stats", { claimedQuests: nextClaimed }).catch(() => {});
+      fireAndForgetStats({ claimedQuests: nextClaimed });
     }
   },
 

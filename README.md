@@ -10,17 +10,19 @@
 [![Dexie](<https://img.shields.io/badge/db-IndexedDB%20(Dexie)-yellow>)](https://dexie.org)
 [![Vitest](https://img.shields.io/badge/tests-Vitest%2BPlaywright-green)](https://vitest.dev)
 [![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen)]()
-[![Core Coverage](https://img.shields.io/badge/core--modules-95%25-brightgreen)]()
 [![TypeScript](https://img.shields.io/badge/types-strict-blue)]()
 [![ESLint](https://img.shields.io/badge/ESLint-flat%20config-purple)]()
 [![Security](https://img.shields.io/badge/CSP-nonce%20based-brightgreen)]()
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen)]()
-[![CD](https://img.shields.io/badge/CD-Vercel%20Staging%2FProd-brightgreen)]()
+[![Auth](https://img.shields.io/badge/auth-Register%2FLogin%2FPassword--Reset-8B5CF6)]()
+[![i18n](https://img.shields.io/badge/i18n-ES%2FEN-ff69b4)]()
+[![Rate Limiting](https://img.shields.io/badge/rate%20limiting-5%2Fmin-orange)]()
 [![Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A%2B-brightgreen)]()
 [![Sentry](https://img.shields.io/badge/monitoring-Sentry-362D59)](https://sentry.io)
 [![Turborepo](https://img.shields.io/badge/monorepo-Turborepo-EF4444)]()
+[![CI](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml)
+[![Deploy](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml)
 [![Accessibility](https://img.shields.io/badge/a11y-role%2Fprogressbar%2Fskip--to--content-brightgreen)]()
-[![SonarQube](https://img.shields.io/badge/quality-SonarQube-4B9BD2)]()
+[![SonarQube](https://img.shields.io/badge/lint-SonarQube%20scanner-4B9BD2)]()
 
 ![OG Image](public/og-image.svg)
 
@@ -37,7 +39,8 @@
 | **Security** | A+ 🏆 | A+ 🏆 | Mozilla Observatory |
 
 > ✅ **Mozilla Observatory**: A+ (10/10 tests passed) — nonce-based CSP.
-> 📊 [PageSpeed Insights](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
+> 🔗 [Mozilla Observatory report](https://observatory.mozilla.org/analyze/dashboard.josmarypirela.dev)
+> 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
 
 ---
 
@@ -64,7 +67,7 @@
 | **Speed Index** | 1.8 s | ✅ Good |
 
 > 📱 **Note**: Metrics obtained under real network conditions (Slow 4G, CPU throttled)
-> [View detailed analysis](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
+> 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
 >
 > 🔒 **Mozilla Observatory**: A+ (10/10) — [View report](https://observatory.mozilla.org/analyze/dashboard.josmarypirela.dev)
 
@@ -91,6 +94,7 @@
 | **Ephemeral session** | Without login, data is lost on page close |
 | **i18n** | Spanish and English with hot-switching (includes auth forms) |
 | **Markdown Notes** | Per-task Markdown note editor with preview (lazy-loaded) |
+| **Rate limiting** | Login (5/15min), Register (5/min), Forgot password (3/min) per IP with shared rate limiter |
 
 ---
 
@@ -206,6 +210,8 @@ BeeHive allows users to register and login to preserve their data across session
 | **Reset security** | All active sessions are invalidated on password reset |
 | **Security** | bcryptjs (12 rounds), httpOnly cookies, sessions with 7-day expiration |
 | **Login** | By email or username |
+| **Rate limiting** | Login 5/15min, Register 5/min, Forgot password 3/min (per IP) |
+| **Password validation** | Shared regex in `src/lib/password-validation.ts` (Zod + server-side + client-side widget) |
 | **i18n** | Auth forms and reset pages in Spanish and English |
 | **UX** | "Sign In" button always visible in sidebar, logout with icon |
 
@@ -228,17 +234,16 @@ Only enabled in production (`NODE_ENV=production`).
 
 ## 📝 Logger
 
-Structured logger with levels and context in `src/infrastructure/logger/Logger.ts`:
+Structured logger with levels and context in `src/lib/logger.ts`:
 
 ```typescript
-const log = new Logger("MyComponent");
+const log = createLogger("MyComponent");
 log.info("message", { key: "value" });
 log.error("something failed", err);
 ```
 
 - Levels: `debug`, `info`, `warn`, `error`
 - `debug` is silenced in production
-- Accessible via `@infrastructure/logger/Logger` alias
 
 ---
 
@@ -275,12 +280,11 @@ Run with `pnpm turbo <task>` or directly `pnpm <task>` (PNPM runner).
 | `NEXT_PUBLIC_SENTRY_DSN` | Sentry DSN | ✅ |
 | `NEXT_PUBLIC_ANALYTICS_ENDPOINT` | Analytics endpoint | ✅ |
 | `NODE_ENV` | development / production | ❌ |
+| `DATABASE_URL` | Neon PostgreSQL connection string | ❌ |
+| `APP_URL` | Application base URL | ❌ |
 | `LOG_LEVEL` | debug / info / warn / error | ❌ |
 | `LOG_ENDPOINT` | Remote log endpoint | ❌ |
-| `RATE_LIMIT_MAX` | Max requests per window | ❌ |
-| `RATE_LIMIT_WINDOW` | Rate limit window (ms) | ❌ |
-| `CORS_ORIGINS` | Allowed CORS origins | ❌ |
-| `APP_URL` | Application base URL | ❌ |
+| `SENTRY_DSN` | Sentry DSN (server) | ❌ |
 
 ---
 

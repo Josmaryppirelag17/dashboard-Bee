@@ -21,3 +21,4 @@ Thumbs.db
 logs/
 .next/
 next-env.d.ts
+.vercel

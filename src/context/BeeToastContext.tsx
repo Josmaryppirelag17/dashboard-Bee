@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, CheckCircle2, AlertTriangle, HelpCircle } from "lucide-react";
+import { generateToastId } from "@/utils/id";
 
 export interface Toast {
   id: string;
@@ -36,7 +37,7 @@ export const BeeToastProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const showToast = useCallback(
     (message: string, type: Toast["type"] = "honey", duration = 3000) => {
-      const id = `toast-${crypto.randomUUID()}`;
+      const id = generateToastId();
       const newToast: Toast = { id, message, type, duration };
       setToasts((prev) => [...prev, newToast]);
 

@@ -1,10 +1,10 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://beehive.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://beehive.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
-    { url: BASE_URL, lastModified: new Date(), changeFrequency: "daily" as const, priority: 1 },
+    { url: siteUrl, lastModified: new Date(), changeFrequency: "daily" as const, priority: 1 },
   ];
 
   // Agrega aqui tus rutas dinamicas (ej: blog posts, productos)

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useHiveStore } from "@/store/useHiveStore";
 import Link from "next/link";
-import { Loader2, Sparkles, ArrowLeft } from "lucide-react";
+import { Loader2, Sparkles, ArrowLeft, Check, X } from "lucide-react";
+import { checkPassword, type PasswordCheck } from "@/lib/password-validation";
 
 const tMap = {
   es: {
@@ -15,13 +16,14 @@ const tMap = {
     confirmPlaceholder: "Repite la contraseña",
     submit: "Restablecer",
     submitting: "Procesando...",
-    passwordMin: "Mínimo 8 caracteres",
     passwordsNoMatch: "Las contraseñas no coinciden",
     success:
       "Tu contraseña ha sido restablecida exitosamente. Todas las sesiones han sido cerradas.",
     error: "Error al restablecer",
     networkError: "Error de red",
     back: "Iniciar Sesión",
+    reqTitle: "La contraseña debe tener:",
+    weakPassword: "La contraseña no cumple los requisitos",
   },
   en: {
     title: "New Password",
@@ -31,12 +33,13 @@ const tMap = {
     confirmPlaceholder: "Repeat password",
     submit: "Reset",
     submitting: "Processing...",
-    passwordMin: "Minimum 8 characters",
     passwordsNoMatch: "Passwords do not match",
     success: "Your password has been reset successfully. All sessions have been closed.",
     error: "Reset failed",
     networkError: "Network error",
     back: "Sign In",
+    reqTitle: "Password must have:",
+    weakPassword: "Password does not meet requirements",
   },
 };
 
@@ -52,12 +55,15 @@ export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  const pwChecks: PasswordCheck[] = useMemo(() => checkPassword(password), [password]);
+  const allMet = pwChecks.every((c) => c.met);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (password.length < 8) {
-      setError(t.passwordMin);
+    if (!allMet) {
+      setError(t.weakPassword);
       return;
     }
     if (password !== confirmPassword) {
@@ -160,6 +166,28 @@ export default function ResetPasswordPage() {
               required
               className="w-full bg-white border border-[#ebdcb9] rounded-xl px-3 py-2.5 text-xs text-[#100f0d] placeholder-[#5c5449]/50 outline-none focus:border-[#e28800] focus:ring-1 focus:ring-[#e28800]/30 transition-all"
             />
+          </div>
+
+          <div className="space-y-1.5">
+            <p className="text-[10px] font-bold text-[#5c5449] uppercase tracking-wider">
+              {t.reqTitle}
+            </p>
+            {pwChecks.map((check) => (
+              <div key={check.key} className="flex items-center space-x-1.5">
+                {check.met ? (
+                  <Check className="w-3 h-3 text-[#4a7c1a]" aria-hidden="true" />
+                ) : (
+                  <X className="w-3 h-3 text-red-500" aria-hidden="true" />
+                )}
+                <span
+                  className={`text-[11px] ${
+                    check.met ? "text-[#4a7c1a]" : "text-[#5c5449]"
+                  } font-medium`}
+                >
+                  {check.label}
+                </span>
+              </div>
+            ))}
           </div>
 
           <div>

@@ -15,7 +15,7 @@ const ALLOWED_ORIGINS = [
   ...(process.env.NEXT_PUBLIC_SITE_URL ? [process.env.NEXT_PUBLIC_SITE_URL] : []),
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const response = NextResponse.next();
   const origin = request.headers.get("origin") || "";
 
@@ -45,8 +45,7 @@ export function middleware(request: NextRequest) {
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
   // ── CSP (development vs production) ──
-  // Production uses nonce-based CSP to pass Mozilla Observatory.
-  // Next.js picks up the nonce from the html element in layout.tsx.
+  // Production uses nonce-based CSP with strict-dynamic to pass Mozilla Observatory A+.
   const nonce = generateNonce();
 
   const csp = isDev
@@ -64,15 +63,18 @@ export function middleware(request: NextRequest) {
       ]
     : [
         "default-src 'self'",
-        `script-src 'self' 'nonce-${nonce}'`,
-        "style-src 'self' 'unsafe-inline'",
-        "connect-src 'self'",
-        "img-src 'self' data: blob: https:",
+        `script-src 'strict-dynamic' 'nonce-${nonce}'`,
+        `style-src 'self' 'nonce-${nonce}'`,
+        "connect-src 'self' https://*.ingest.sentry.io",
+        "img-src 'self' data:",
         "font-src 'self'",
+        "media-src 'self'",
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",
         "frame-ancestors 'none'",
+        "worker-src 'self' blob:",
+        "upgrade-insecure-requests",
       ];
 
   response.headers.set("Content-Security-Policy", csp.join("; "));
