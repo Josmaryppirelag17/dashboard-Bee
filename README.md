@@ -84,21 +84,11 @@
 | **Pomodoro Timer** | Configurable timer with active task selector and completion confirmation |
 | **Kanban Board** | Task management with drag & drop (To do → In progress → Done) |
 | **Gamification** | XP from claimable quests with level-based ranking system |
-| **Level-based quests** | Level 1: 3 basic quests · Level 2+: harder with higher rewards |
-| **Instant search** | Real-time task filtering by title or notes |
 | **Weekly statistics** | SVG charts of focus time and daily efficiency |
-| **Projection** | Days remaining prediction based on configurable daily work pace |
 | **CSV Import/Export** | Backup and restore tasks in CSV format |
-| **Session without login** | Device tracking with heartbeat and inactivity timeout (demo ready) |
-| **Authentication** | Registration and login with name, last name, username, email and password |
-| **Password checker** | Real-time dynamic requirements (8+ chars, uppercase, number, special) with visual checklist |
-| **Forgot / Reset password** | Styled pages (bee theme) to request restoration and change password with token |
-| **Logout** | Sign Out button with LogOut icon in sidebar, deletes server session |
-| **Data persistence** | On login, data is saved to Neon PostgreSQL (persistent session) |
-| **Ephemeral session** | Without login, data is lost on page close |
+| **Authentication** | Registration, login, forgot/reset password with bcryptjs, httpOnly cookies and DB sessions |
 | **i18n** | Spanish and English with hot-switching (includes auth forms) |
 | **Markdown Notes** | Per-task Markdown note editor with preview (lazy-loaded) |
-| **Rate limiting** | Login (5/15min), Register (5/min), Forgot password (3/min) per IP with shared rate limiter |
 
 ---
 
