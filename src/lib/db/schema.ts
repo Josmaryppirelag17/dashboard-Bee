@@ -1,4 +1,4 @@
-import { serial, varchar, text, timestamp, integer, boolean } from "drizzle-orm/pg-core";
+import { serial, varchar, text, timestamp, integer, boolean, jsonb } from "drizzle-orm/pg-core";
 import { pgSchema } from "drizzle-orm/pg-core";
 
 const bee = pgSchema("bee");
@@ -10,6 +10,13 @@ export const users = bee.table("users", {
   name: varchar("name", { length: 100 }).notNull(),
   lastName: varchar("last_name", { length: 100 }).notNull(),
   passwordHash: text("password_hash").notNull(),
+  emailVerified: boolean("email_verified").default(false),
+  emailToken: varchar("email_token", { length: 255 }),
+  failedAttempts: integer("failed_attempts").default(0),
+  lockedUntil: timestamp("locked_until", { withTimezone: true }),
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+  lastLoginIp: varchar("last_login_ip", { length: 45 }),
+  role: varchar("role", { length: 20 }).default("user"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
@@ -32,6 +39,9 @@ export const sessions = bee.table("sessions", {
     .references(() => users.id, { onDelete: "cascade" }),
   token: varchar("token", { length: 255 }).notNull().unique(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  userAgent: text("user_agent"),
+  revokedAt: timestamp("revoked_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
@@ -73,6 +83,16 @@ export const userStats = bee.table("user_stats", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
+export const auditLogs = bee.table("audit_logs", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "set null" }),
+  action: varchar("action", { length: 50 }).notNull(),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  userAgent: text("user_agent"),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Session = typeof sessions.$inferSelect;
@@ -81,3 +101,4 @@ export type Task = typeof tasks.$inferSelect;
 export type NewTask = typeof tasks.$inferInsert;
 export type UserStat = typeof userStats.$inferSelect;
 export type NewUserStat = typeof userStats.$inferInsert;
+export type AuditLog = typeof auditLogs.$inferSelect;

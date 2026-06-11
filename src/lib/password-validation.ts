@@ -1,3 +1,9 @@
+const COMMON_PASSWORDS = new Set([
+  "password", "12345678", "123456789", "1234567890", "qwerty123",
+  "admin123", "letmein", "welcome1", "monkey123", "dragon123",
+  "abc12345", "password1", "1234abcd", "passw0rd", "iloveyou",
+]);
+
 export const PASSWORD_RULES = {
   minLength: 8,
   maxLength: 128,
@@ -26,8 +32,14 @@ export function checkPassword(password: string): PasswordCheck[] {
 export function validatePassword(password: string): { valid: boolean; errors: string[] } {
   const checks = checkPassword(password);
   const failed = checks.filter((c) => !c.met);
+  const errors = failed.map((c) => c.label);
+
+  if (COMMON_PASSWORDS.has(password.toLowerCase())) {
+    errors.push("Esta contraseña es demasiado común");
+  }
+
   return {
-    valid: failed.length === 0,
-    errors: failed.map((c) => c.label),
+    valid: errors.length === 0,
+    errors,
   };
 }
