@@ -2,31 +2,14 @@
 
 > Gamified productivity dashboard with Pomodoro, Kanban, XP quests and user authentication.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org)
-[![Tailwind](https://img.shields.io/badge/Tailwind-4-38B2AC)](https://tailwindcss.com)
-[![Zustand](https://img.shields.io/badge/state-Zustand-orange)](https://zustand-demo.pmnd.rs)
-[![Dexie](<https://img.shields.io/badge/db-IndexedDB%20(Dexie)-yellow>)](https://dexie.org)
-[![Vitest](https://img.shields.io/badge/tests-Vitest%2BPlaywright-green)](https://vitest.dev)
+
 [![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen)]()
-[![TypeScript](https://img.shields.io/badge/types-strict-blue)]()
-[![ESLint](https://img.shields.io/badge/ESLint-flat%20config-purple)]()
-[![Security](https://img.shields.io/badge/CSP-nonce%20based-brightgreen)]()
-[![Auth](https://img.shields.io/badge/auth-Register%2FLogin%2FPassword--Reset-8B5CF6)]()
-[![i18n](https://img.shields.io/badge/i18n-ES%2FEN-ff69b4)]()
-[![Rate Limiting](https://img.shields.io/badge/rate%20limiting-5%2Fmin-orange)]()
 [![Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A%2B-brightgreen)]()
-[![Sentry](https://img.shields.io/badge/monitoring-Sentry-362D59)](https://sentry.io)
-[![Turborepo](https://img.shields.io/badge/monorepo-Turborepo-EF4444)]()
 [![CI](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml)
 [![Deploy](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml)
-[![Accessibility](https://img.shields.io/badge/a11y-role%2Fprogressbar%2Fskip--to--content-brightgreen)]()
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
+
 
 ![OG Image](public/og-image.svg)
 
@@ -43,8 +26,8 @@
 | **Security** | A+ 🏆 | A+ 🏆 | Mozilla Observatory |
 
 > ✅ **Mozilla Observatory**: A+ (10/10 tests passed) — nonce-based CSP.
+
 > 🔗 [Mozilla Observatory report](https://observatory.mozilla.org/analyze/dashboard.josmarypirela.dev)
-> 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
 
 ---
 
@@ -70,10 +53,8 @@
 | **Cumulative Layout Shift** | 0.01 | ✅ Good |
 | **Speed Index** | 1.8 s | ✅ Good |
 
-> 📱 **Note**: Metrics obtained under real network conditions (Slow 4G, CPU throttled)
 > 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
->
-> 🔒 **Mozilla Observatory**: A+ (10/10) — [View report](https://observatory.mozilla.org/analyze/dashboard.josmarypirela.dev)
+
 
 ---
 
@@ -139,17 +120,6 @@ pnpm test:e2e    # E2E (Playwright: Chromium/Firefox/WebKit local, Chromium only
 pnpm preflight   # typecheck + lint + test (CI pipeline)
 ```
 
-### Key coverage
-
-| Module | Statements | Branches |
-|---|---|---|
-| `store/useHiveStore` | 95% | 78% |
-| `hooks/useTasks` | 100% | 100% |
-| `components/TaskCard` | 100% | 100% |
-| `components/FocusTimer` | 72% | 56% |
-| `utils/importer` | 100% | 91% |
-| `utils/sanitize` | 100% | 100% |
-
 ---
 
 ## 📁 Architecture
@@ -211,33 +181,11 @@ BeeHive allows users to register and login to preserve their data across session
 
 ---
 
-## 🐛 Sentry (Error Monitoring)
-
-Sentry is configured to capture errors on client, server and edge:
-
-| File | Runtime | Sampling |
-|---|---|---|
-| `sentry.client.config.ts` | Browser | 25% |
-| `sentry.server.config.ts` | Node.js | 50% |
-| `sentry.edge.config.ts` | Edge | 10% |
-| `instrumentation.ts` | Bootstrap | — |
-
-Only enabled in production (`NODE_ENV=production`).
-
----
 
 ## 📝 Logger
 
-Structured logger with levels and context in `src/lib/logger.ts`:
+Structured logger with levels (`debug`, `info`, `warn`, `error`) — silenced in production.
 
-```typescript
-const log = createLogger("MyComponent");
-log.info("message", { key: "value" });
-log.error("something failed", err);
-```
-
-- Levels: `debug`, `info`, `warn`, `error`
-- `debug` is silenced in production
 
 ---
 
@@ -260,25 +208,7 @@ Run with `pnpm turbo <task>` or directly `pnpm <task>` (PNPM runner).
 
 ## 🔐 Environment Variables
 
-| File | Purpose |
-|---|---|
-| `.env.example` | Template with default values |
-| `.env.local` | Local overrides (gitignored) |
-| `.env.development` | Development (`NODE_ENV=development`) |
-| `.env.staging` | Staging (`NODE_ENV=production`) |
-| `.env.production` | Production (`NODE_ENV=production`) |
-
-| Variable | Description | Public |
-|---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Site URL | ✅ |
-| `NEXT_PUBLIC_SENTRY_DSN` | Sentry DSN | ✅ |
-| `NEXT_PUBLIC_ANALYTICS_ENDPOINT` | Analytics endpoint | ✅ |
-| `NODE_ENV` | development / production | ❌ |
-| `DATABASE_URL` | Neon PostgreSQL connection string | ❌ |
-| `APP_URL` | Application base URL | ❌ |
-| `LOG_LEVEL` | debug / info / warn / error | ❌ |
-| `LOG_ENDPOINT` | Remote log endpoint | ❌ |
-| `SENTRY_DSN` | Sentry DSN (server) | ❌ |
+See `.env.example` for required variables.
 
 ---
 
@@ -305,4 +235,4 @@ pnpm build && pnpm start       # Production
 ## 🔗 Links
 
 [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://dashboard.josmarypirela.dev)
-[![PageSpeed](https://img.shields.io/badge/PageSpeed-97F100-brightgreen)](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
+[![PageSpeed](https://img.shields.io/badge/PageSpeed-91/100-brightgreen)](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
