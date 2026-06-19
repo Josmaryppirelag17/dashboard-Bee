@@ -123,7 +123,7 @@ describe("OnboardingTour", () => {
   it("renders backdrop overlay", () => {
     render(<OnboardingTour />);
     const headings = screen.getAllByText(/Bienvenido|Welcome/);
-    const backdrop = headings[0].closest(".fixed");
+    const backdrop = headings[0]!.closest(".fixed");
     expect(backdrop?.querySelector(".bg-black\\/40")).toBeTruthy();
     expect(backdrop).toBeTruthy();
   });
