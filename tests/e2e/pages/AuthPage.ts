@@ -10,7 +10,7 @@ export class AuthPage {
   constructor(page: Page) {
     this.page = page;
     this.submitBtn = page.locator('button[type="submit"]').last();
-    this.signInBtn = page.getByRole("button", { name: /Sign In|Iniciar Sesión/ });
+    this.signInBtn = page.getByRole("button", { name: /Sign In|Iniciar Sesión/i });
     this.signUpBtn = page.getByRole("tab", { name: /Sign Up|Registrarse/ });
     this.modal = page.getByRole("dialog");
   }
