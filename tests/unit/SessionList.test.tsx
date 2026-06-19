@@ -162,11 +162,7 @@ describe("SessionList", () => {
     vi.spyOn(globalThis, "fetch").mockImplementation(() => {
       callCount++;
       if (callCount === 1) {
-        const okResponse = {
-          ok: true,
-          json: () => Promise.resolve({ success: true, data: { sessions } }),
-        };
-        return Promise.resolve(okResponse);
+        return Promise.resolve(new Response(JSON.stringify({ success: true, data: { sessions } })));
       }
       return Promise.reject(new Error("fail"));
     });
