@@ -21,14 +21,19 @@ vi.mock("@/store/useHiveStore", () => ({
 }));
 
 vi.mock("motion/react", () => {
-  const el = (tag: string) =>
-    ({ children, ...props }: any) =>
+  const el = (tag: string) => {
+    const Comp = ({ children, ...props }: any) =>
       React.createElement(tag, props, children);
+    Comp.displayName = `motion.${tag}`;
+    return Comp;
+  };
+  const AnimatePresence = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+  AnimatePresence.displayName = "AnimatePresence";
   return {
     motion: {
       div: el("div"),
     },
-    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+    AnimatePresence,
   };
 });
 
