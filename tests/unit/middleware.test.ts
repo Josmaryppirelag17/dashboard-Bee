@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 const mockNextResponseNext = vi.fn(() => ({
   headers: new Map<string, string>(),
@@ -13,7 +13,11 @@ vi.mock("next/server", () => ({
 describe("middleware", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    process.env.NODE_ENV = "test";
+    vi.stubEnv("NODE_ENV", "test");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it("sets security headers", async () => {
