@@ -21,9 +21,11 @@ setup("authenticate as test user", async ({ page }) => {
   // Wait for auth cookie to be set
   await page.waitForTimeout(2000);
 
-  // Verify logged in
-  const loggedIn = await page.evaluate(() => document.cookie.includes("bee_session_token"));
-  expect(loggedIn).toBeTruthy();
+  // Verify logged in (httpOnly cookie, must use context().cookies())
+  const cookies = await page.context().cookies();
+  const sessionCookie = cookies.find((c) => c.name === "bee_session_token");
+  expect(sessionCookie).toBeDefined();
+  expect(sessionCookie!.value).toBeTruthy();
 
   // Save storage state (cookies + localStorage)
   await page.context().storageState({ path: AUTH_FILE });

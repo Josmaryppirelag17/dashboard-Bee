@@ -12,7 +12,6 @@ export function generateTestUser() {
 }
 
 export async function isLoggedIn(page: Page): Promise<boolean> {
-  return page.evaluate(() => {
-    return document.cookie.includes("bee_session_token");
-  });
+  const cookies = await page.context().cookies();
+  return cookies.some((c) => c.name === "bee_session_token");
 }

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { AuthPage } from "./pages/AuthPage";
-import { generateTestUser } from "./helpers";
+import { generateTestUser, isLoggedIn } from "./helpers";
 
 test.describe("Full User Journey", () => {
   test("complete workflow: register → create task → focus → export → logout", async ({ page }) => {
@@ -14,8 +14,7 @@ test.describe("Full User Journey", () => {
     await page.waitForTimeout(1500);
 
     // Verify logged in
-    let loggedIn = await page.evaluate(() => document.cookie.includes("bee_session_token"));
-    expect(loggedIn).toBeTruthy();
+    expect(await isLoggedIn(page)).toBeTruthy();
 
     // 2. Create a task
     await page.locator("#sidebar-item-dashboard").click();
@@ -55,7 +54,6 @@ test.describe("Full User Journey", () => {
     await page.reload();
     await page.waitForTimeout(1500);
 
-    loggedIn = await page.evaluate(() => document.cookie.includes("bee_session_token"));
-    expect(loggedIn).toBeFalsy();
+    expect(await isLoggedIn(page)).toBeFalsy();
   });
 });

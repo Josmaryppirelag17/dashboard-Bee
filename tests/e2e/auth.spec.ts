@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { AuthPage } from "./pages/AuthPage";
-import { generateTestUser } from "./helpers";
+import { generateTestUser, isLoggedIn } from "./helpers";
 
 test.describe("Authentication", () => {
   test("register a new user", async ({ page }) => {
@@ -13,8 +13,7 @@ test.describe("Authentication", () => {
     await auth.register(user.name, user.lastName, user.username, user.email, user.password);
 
     // Should be logged in (modal closed, cookie set)
-    const loggedIn = await page.evaluate(() => document.cookie.includes("bee_session_token"));
-    expect(loggedIn).toBeTruthy();
+    expect(await isLoggedIn(page)).toBeTruthy();
   });
 
   test("login with existing credentials", async ({ page }) => {
@@ -37,8 +36,7 @@ test.describe("Authentication", () => {
     // Login
     await auth.login(user.email, user.password);
 
-    const loggedIn = await page.evaluate(() => document.cookie.includes("bee_session_token"));
-    expect(loggedIn).toBeTruthy();
+    expect(await isLoggedIn(page)).toBeTruthy();
   });
 
   test("show error on invalid login", async ({ page }) => {
