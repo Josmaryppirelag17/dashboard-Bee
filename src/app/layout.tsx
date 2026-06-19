@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Providers from "./Providers";
 
@@ -72,6 +73,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Saltar al contenido principal
         </a>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
