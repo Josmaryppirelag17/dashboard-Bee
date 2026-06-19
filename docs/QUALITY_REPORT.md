@@ -1,19 +1,19 @@
 # Quality Report
 
-> Última actualización: 2026-06-19
+> Last updated: 2026-06-19
 
 ## PageSpeed Insights
 
-| Categoría      | Desktop | Mobile  |
-| -------------- | ------- | ------- |
-| Performance    | 100/100 | 96/100  |
-| Accessibility  | 93/100  | 93/100  |
-| Best Practices | 96/100  | 96/100  |
-| SEO            | 100/100 | 100/100 |
+| Category        | Desktop | Mobile  |
+| --------------- | ------- | ------- |
+| Performance     | 100/100 | 96/100  |
+| Accessibility   | 93/100  | 93/100  |
+| Best Practices  | 96/100  | 96/100  |
+| SEO             | 100/100 | 100/100 |
 
 ## Core Web Vitals
 
-| Métrica     | Desktop | Mobile |
+| Metric      | Desktop | Mobile |
 | ----------- | ------- | ------ |
 | FCP         | 0.3s    | 1.2s   |
 | LCP         | 0.6s    | 2.6s   |
@@ -23,14 +23,14 @@
 
 ## Mozilla Observatory
 
-| Categoría | Resultado            |
-| --------- | -------------------- |
-| Seguridad | **A+** (10/10 tests) |
-| CSP       | Nonce-based          |
+| Category   | Result               |
+| ---------- | -------------------- |
+| Security   | **A+** (10/10 tests) |
+| CSP        | Nonce-based          |
 
 ## SonarCloud
 
-| Métrica      | Estado |
+| Metric       | Status |
 | ------------ | ------ |
 | Quality Gate | ✅     |
 | Security     | ✅ A   |
@@ -38,7 +38,7 @@
 
 ## TypeScript
 
-| Config | Valor    |
+| Config | Value    |
 | ------ | -------- |
 | strict | ✅       |
 | Build  | ✅ Clean |

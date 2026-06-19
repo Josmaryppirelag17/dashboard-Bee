@@ -1,66 +1,62 @@
 # Known Limitations
 
-> Estado actual de limitaciones conocidas del proyecto. No se planea resolverlas a menos que se conviertan en blockers.
+> Current state of known project limitations. Not planned for resolution unless they become blockers.
 
 ---
 
----
+## 3. Sentry DSNs hardcoded in `.env.*`
+
+Files `.env.development`, `.env.production` and `.env.staging` contain hardcoded Sentry DSNs. They should be runtime environment variables only.
+
+**Impact:** Low. Sentry DSNs are public by design.
 
 ---
 
-## 3. DSNs de Sentry hardcodeados en `.env.*`
+## 4. Inconsistent rate limiting
 
-Los archivos `.env.development`, `.env.production` y `.env.staging` contienen DSNs de Sentry quemados. Deberían ser solo variables de entorno de runtime.
-
-**Impacto:** Bajo. Los DSNs de Sentry son públicos por diseño.
-
----
-
-## 4. Rate limiting inconsistente
-
-Login tiene rate limit (5/15min), Register (5/min), Forgot (3/min). Falta rate limiting en:
+Login has rate limiting (5/15min), Register (5/min), Forgot (3/min). Missing rate limiting on:
 
 - Reset password
 - Tasks API (POST/PUT/DELETE)
 
-**Impacto:** Bajo. Para un proyecto de portafolio, el riesgo es mínimo.
+**Impact:** Low. For a portfolio project, risk is minimal.
 
 ---
 
-## 5. Sin LoggerService estructurado
+## 5. No structured LoggerService
 
-El proyecto usa `console.error` directo en vez de un logger estructurado con niveles.
+The project uses direct `console.error` instead of a structured logger with levels.
 
-**Impacto:** Bajo. Para debugging es suficiente.
-
----
-
-## 6. Analytics endpoint no configurado
-
-`src/lib/analytics.ts` tiene un cliente con queue y sendBeacon, pero `NEXT_PUBLIC_ANALYTICS_ENDPOINT` no está configurado en ningún `.env`.
-
-**Impacto:** Bajo. No es crítico para un portafolio.
+**Impact:** Low. Sufficient for debugging.
 
 ---
 
-## 7. Account lockout no implementado
+## 6. Analytics endpoint not configured
 
-Schema tiene `failedAttempts` y `lockedUntil` pero la lógica de bloqueo no está implementada.
+`src/lib/analytics.ts` has a client with queue and sendBeacon, but `NEXT_PUBLIC_ANALYTICS_ENDPOINT` is not set in any `.env`.
 
-**Impacto:** Bajo. Rate limiting ya mitiga ataques de fuerza bruta.
-
----
-
-## 8. Email verification no implementado
-
-Schema tiene `emailVerified` y `emailToken` pero no hay flujo de verificación de email.
-
-**Impacto:** Bajo. Para un proyecto de portafolio no es crítico.
+**Impact:** Low. Not critical for a portfolio.
 
 ---
 
-## 9. Sin health check endpoint
+## 7. Account lockout not implemented
 
-No existe `/api/health` para monitoreo.
+Schema has `failedAttempts` and `lockedUntil` fields but the lockout logic is not implemented.
 
-**Impacto:** Bajo. Vercel maneja health checks internamente.
+**Impact:** Low. Rate limiting already mitigates brute-force attacks.
+
+---
+
+## 8. Email verification not implemented
+
+Schema has `emailVerified` and `emailToken` fields but no email verification flow.
+
+**Impact:** Low. Not critical for a portfolio project.
+
+---
+
+## 9. No health check endpoint
+
+No `/api/health` endpoint for monitoring.
+
+**Impact:** Low. Vercel handles health checks internally.

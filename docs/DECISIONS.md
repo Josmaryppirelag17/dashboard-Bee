@@ -1,17 +1,17 @@
 # Architecture Decisions
 
-## Arquitectura
+## Architecture
 
-- **Next.js App Router** con Atomic Design para componentes
-- **Zustand** para estado global del cliente
-- **Dexie.js (IndexedDB)** para persistencia local offline-first
-- **Neon + Drizzle** para persistencia cloud con auth
-- **@dnd-kit** para drag & drop del Kanban
+- **Next.js App Router** with Atomic Design for components
+- **Zustand** for client-side global state
+- **Dexie.js (IndexedDB)** for offline-first local persistence
+- **Neon + Drizzle** for cloud persistence with auth
+- **@dnd-kit** for Kanban drag & drop
 
-## Logger estructurado no implementado
+## Structured logger not implemented
 
-`console.log` es suficiente para el tamaño del proyecto.
+`console.log` is sufficient for the project size.
 
-## Redis para rate limiting no usado
+## Redis for rate limiting not used
 
-In-memory es suficiente para un proyecto de portafolio sin escala.
+In-memory is sufficient for a portfolio project without scale.

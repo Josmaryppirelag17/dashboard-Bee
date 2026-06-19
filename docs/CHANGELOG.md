@@ -1,6 +1,6 @@
 # Changelog
 
-> Formato basado en [Keep a Changelog](https://keepachangelog.com/) y [Semantic Versioning](https://semver.org/).
+> Format based on [Keep a Changelog](https://keepachangelog.com/) and [Semantic Versioning](https://semver.org/).
 
 ---
 
@@ -8,13 +8,13 @@
 
 ### Added
 
-- 49 nuevos tests unitarios (13 nuevas suites): password-validation (12), rate-limit (8), useDebounce (3), useBeeStats (7), useBeePersistence (3), useHiveProjection (8), useSessionTracker (5), theme (3)
-- SonarCloud exclusions sincronizadas con vitest config
+- 49 new unit tests (13 new suites): password-validation (12), rate-limit (8), useDebounce (3), useBeeStats (7), useBeePersistence (3), useHiveProjection (8), useSessionTracker (5), theme (3)
+- SonarCloud exclusions synced with vitest config
 
 ### Fixed
 
-- E2E auth cookie check: `document.cookie` → `page.context().cookies()` para httpOnly cookies
-- `AuthPage.ts` signInBtn locator: flag `/i` para "Sign In" vs "Sign in"
+- E2E auth cookie check: `document.cookie` → `page.context().cookies()` for httpOnly cookies
+- `AuthPage.ts` signInBtn locator: `/i` flag for "Sign In" vs "Sign in"
 - `password-validation.test.ts`: unused import TS6133
 - `useSessionTracker.test.tsx`: missing `beforeEach` import TS2304
 
@@ -54,12 +54,12 @@
 
 ### Fixed
 
-- Zod validation agregada a Tasks API (POST/PUT)
+- Zod validation added to Tasks API (POST/PUT)
 
-### Cerrado
+### Closed
 
-- Proyecto pasa a Maintenance Mode
-- Documentación de cierre completada (PROJECT_STATUS, KNOWN_LIMITATIONS, MAINTENANCE)
+- Project enters Maintenance Mode
+- Closure documentation complete (PROJECT_STATUS, KNOWN_LIMITATIONS, MAINTENANCE)
 
 ---
 
@@ -67,11 +67,11 @@
 
 ### Fixed
 
-- Reemplazadas credenciales PostgreSQL hardcodeadas por env vars con defaults
+- Replaced hardcoded PostgreSQL credentials with env vars and defaults
 
 ### Added
 
-- Tests CRDT unitarios + E2E smoke tests
+- CRDT unit tests + E2E smoke tests
 
 ---
 
@@ -79,9 +79,9 @@
 
 ### Added
 
-- Conexión de ChaosPanel UI a inject-failure API para persistencia en DB
-- Speed slider en controles 3D overlay
-- SimulationSpeed control + auto-heal después de chaos events
+- ChaosPanel UI connected to inject-failure API for DB persistence
+- Speed slider in 3D overlay controls
+- SimulationSpeed control + auto-heal after chaos events
 
 ---
 
@@ -89,7 +89,7 @@
 
 ### Docs
 
-- README completo siguiendo formato de template
+- Complete README following template format
 
 ### Chore
 
@@ -101,8 +101,8 @@
 
 ### CI
 
-- Migrado deploy a Vercel CLI
-- Agregado SonarCloud analysis
+- Deploy migrated to Vercel CLI
+- Added SonarCloud analysis
 
 ---
 
@@ -110,12 +110,12 @@
 
 ### Added
 
-- Sistema de autenticación completo
+- Complete authentication system
 - Kanban drag & drop
 - Pomodoro timer
-- Gamificación: XP, achievements, quests
+- Gamification: XP, achievements, quests
 - CSV export/import
-- Estadísticas SVG
+- SVG statistics
 - i18n ES/EN
 
 ---
@@ -124,7 +124,7 @@
 
 ### Added
 
-- Dashboard con tabs (Garden, Canvas, Marketplace, Analytics, Settings)
+- Dashboard with tabs (Garden, Canvas, Marketplace, Analytics, Settings)
 - Stripe checkout + webhooks
 - Neon PostgreSQL + Drizzle ORM
 - Docker + docker-compose
@@ -135,6 +135,6 @@
 
 ### Added
 
-- Inicio del proyecto
+- Project initialization
 - Next.js + TypeScript strict + Tailwind CSS
-- Atomic Design estructura de componentes
+- Atomic Design component structure

@@ -3,28 +3,28 @@
 ## Logger
 
 ```typescript
-console.log("mensaje"); // Desarrollo
-console.error("error", e); // Errores
+console.log("message"); // Development
+console.error("error", e); // Errors
 ```
 
-Niveles: El proyecto usa `console.log`/`console.error` directo. Sin LoggerService estructurado (decisión consciente).
+Levels: The project uses direct `console.log`/`console.error`. No structured LoggerService (conscious decision).
 
 ## Sentry
 
-Monitoreo en producción con sampling:
+Production monitoring with sampling:
 
 - Client: 25%
 - Server: 50%
 - Edge: 10%
 
-Solo habilitado en producción.
+Only enabled in production.
 
 ## API Error Responses
 
-Las API routes devuelven errores estructurados con código y mensaje.
+API routes return structured errors with code and message.
 
-## Rate limiting por IP
+## Rate limiting by IP
 
-- Login: 5 intentos / 15 min
+- Login: 5 attempts / 15 min
 - Register: 5 / min
 - Forgot password: 3 / min

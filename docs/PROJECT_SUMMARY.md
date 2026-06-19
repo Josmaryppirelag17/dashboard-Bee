@@ -2,36 +2,36 @@
 
 > Gamified productivity dashboard with Pomodoro, Kanban, XP quests and authentication.
 
-## Datos generales
+## General Info
 
-| Campo   | Valor                                                                      |
-| ------- | -------------------------------------------------------------------------- |
-| Nombre  | BeeHive Dashboard                                                          |
-| Versión | 0.0.0                                                                      |
-| Estado  | 🟡 Production Ready (GPQF Level 4)                                         |
-| Tipo    | SaaS Web — Productividad                                                   |
-| Dominio | dashboard.josmarypirela.dev                                                |
-| Inicio  | 2026-06-04                                                                 |
-| Stack   | Next.js 15, React 19, TypeScript, Tailwind, Neon, Drizzle, Dexie, @dnd-kit |
+| Field   | Value                                                                       |
+| ------- | --------------------------------------------------------------------------- |
+| Name    | BeeHive Dashboard                                                           |
+| Version | 0.0.0                                                                       |
+| Status  | 🟢 Portfolio Ready (GPQF Level 5)                                          |
+| Type    | SaaS Web — Productivity                                                     |
+| Domain  | dashboard.josmarypirela.dev                                                 |
+| Start   | 2026-06-04                                                                  |
+| Stack   | Next.js 15, React 19, TypeScript, Tailwind, Neon, Drizzle, Dexie, @dnd-kit  |
 
-## Lo construido
+## Built
 
-- Pomodoro Timer configurable
-- Kanban Board con drag & drop
-- Gamificación (XP, quests, niveles)
-- Estadísticas semanales SVG
+- Configurable Pomodoro Timer
+- Kanban Board with drag & drop
+- Gamification (XP, quests, levels)
+- Weekly SVG statistics
 - CSV Import/Export
 - Markdown Notes
-- Auth completo (bcryptjs)
+- Full Auth (bcryptjs)
 - i18n ES/EN
-- Persistencia local (IndexedDB) + cloud (Neon)
+- Local (IndexedDB) + cloud (Neon) persistence
 
-## Estado actual
+## Current State
 
-| Área        | Estado            |
-| ----------- | ----------------- |
-| Tests       | ✅ 264 tests (25 suites) |
-| Performance | ✅ 100/100 Desktop       |
-| Seguridad   | ✅ A+ Observatory        |
-| E2E         | ✅ 6 specs (Playwright)  |
-| Logger      | ⚠️ console.log           |
+| Area        | Status                     |
+| ----------- | -------------------------- |
+| Tests       | ✅ 264 tests (25 suites)   |
+| Performance | ✅ 100/100 Desktop         |
+| Security    | ✅ A+ Observatory          |
+| E2E         | ✅ 6 specs (Playwright)    |
+| Logger      | ⚠️ console.log             |

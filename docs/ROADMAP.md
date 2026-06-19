@@ -1,50 +1,50 @@
 # Roadmap
 
-> Estado del proyecto: 🟡 **Completado — Maintenance Mode**
+> Project status: 🟢 **Completed — Maintenance Mode**
 
 ---
 
-## Hitos alcanzados
+## Milestones reached
 
-| Hito                                                     | Estado | Fecha      |
+| Milestone                                                | Status | Date       |
 | -------------------------------------------------------- | ------ | ---------- |
-| Fundación (Next.js + TS + Tailwind)                      | ✅     | 2026-06-04 |
+| Foundation (Next.js + TS + Tailwind)                     | ✅     | 2026-06-04 |
 | Atomic Design components                                 | ✅     | 2026-06-04 |
-| Dashboard con tabs                                       | ✅     | 2026-06-05 |
+| Dashboard with tabs                                      | ✅     | 2026-06-05 |
 | Stripe checkout + webhooks                               | ✅     | 2026-06-05 |
 | Neon PostgreSQL + Drizzle                                | ✅     | 2026-06-05 |
 | Docker + docker-compose                                  | ✅     | 2026-06-05 |
-| Auth completo (register, login, session, password reset) | ✅     | 2026-06-06 |
+| Full Auth (register, login, session, password reset)     | ✅     | 2026-06-06 |
 | Kanban drag & drop                                       | ✅     | 2026-06-06 |
 | Pomodoro timer                                           | ✅     | 2026-06-06 |
-| Gamificación (XP, achievements, quests)                  | ✅     | 2026-06-06 |
+| Gamification (XP, achievements, quests)                  | ✅     | 2026-06-06 |
 | CSV export/import                                        | ✅     | 2026-06-06 |
-| Estadísticas SVG                                         | ✅     | 2026-06-06 |
+| SVG statistics                                           | ✅     | 2026-06-06 |
 | i18n ES/EN                                               | ✅     | 2026-06-06 |
 | CI/CD + SonarCloud                                       | ✅     | 2026-06-07 |
-| README completo                                          | ✅     | 2026-06-08 |
-| Zod en Tasks API                                         | ✅     | 2026-06-11 |
-| GPQF Level 4 alcanzado                                   | ✅     | 2026-06-11 |
-| Cierre y Maintenance Mode                                | ✅     | 2026-06-11 |
+| Full README                                              | ✅     | 2026-06-08 |
+| Zod on Tasks API                                         | ✅     | 2026-06-11 |
+| GPQF Level 4 reached                                     | ✅     | 2026-06-11 |
+| Closure and Maintenance Mode                             | ✅     | 2026-06-11 |
 | Coverage push (49 tests, 8 suites)                       | ✅     | 2026-06-19 |
-| E2E httpOnly cookie fix                                   | ✅     | 2026-06-19 |
+| E2E httpOnly cookie fix                                  | ✅     | 2026-06-19 |
 | GPQF Level 5 — Portfolio Ready                           | ✅     | 2026-06-19 |
 
 ---
 
-## Lo que NO se construyó (decisión consciente)
+## What was NOT built (conscious decision)
 
-| Feature                    | Motivo                                                                                                                |
+| Feature                    | Reason                                                                                                                |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| LoggerService estructurado | console.log es suficiente para el tamaño del proyecto                                                                 |
-| Redis para rate limiting   | In-memory es suficiente para un proyecto de portafolio sin escala                                                     |
-| Account lockout            | Rate limiting ya mitiga fuerza bruta                                                                                  |
-| Email verification         | No crítico para el propósito del proyecto                                                                             |
+| Structured LoggerService   | console.log is sufficient for the project size                                                                        |
+| Redis for rate limiting    | In-memory is sufficient for a portfolio project without scale                                                         |
+| Account lockout            | Rate limiting already mitigates brute force                                                                           |
+| Email verification         | Not critical for the project's purpose                                                                                |
 
 ---
 
-## Futuro (solo si es necesario)
+## Future (only if needed)
 
-- Actualización de dependencias
-- Corrección de vulnerabilidades
-- No hay roadmap activo. El proyecto está cerrado.
+- Dependency updates
+- Vulnerability fixes
+- No active roadmap. The project is closed.

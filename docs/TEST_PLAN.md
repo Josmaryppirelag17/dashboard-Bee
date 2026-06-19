@@ -1,69 +1,69 @@
 # Test Plan
 
-## Estado actual
+## Current state
 
-| Tipo            | Cantidad                   | Estado |
-| --------------- | -------------------------- | ------ |
-| Unitarios       | 106 tests (13 suites)      | ✅     |
-| Integración API | 67 tests (5 suites)        | ✅     |
-| E2E             | 6 specs (Playwright)       | ✅     |
-| **Total**       | **264 tests (25 suites)**  | ✅     |
+| Type             | Count                       | Status |
+| ---------------- | --------------------------- | ------ |
+| Unit             | 106 tests (13 suites)       | ✅     |
+| API Integration  | 67 tests (5 suites)         | ✅     |
+| E2E              | 6 specs (Playwright)        | ✅     |
+| **Total**        | **264 tests (25 suites)**   | ✅     |
 
-## Tests existentes
+## Existing tests
 
 ### API (67 tests, 5 suites)
-| Suite      | Tests | Cobertura |
-| ---------- | ----- | --------- |
+| Suite      | Tests | Coverage                           |
+| ---------- | ----- | ---------------------------------- |
 | Auth       | 36    | Register, login, forgot/reset password, rate limiting, validation |
 | Tasks      | 15    | CRUD, Kanban logic, Zod validation, authorization |
-| Stats      | 9     | CRUD, authorization |
-| Sync       | 4     | Push/pull, merge, authorization |
-| Analytics  | 3     | Event tracking, validation |
+| Stats      | 9     | CRUD, authorization                |
+| Sync       | 4     | Push/pull, merge, authorization    |
+| Analytics  | 3     | Event tracking, validation         |
 
 ### Unit (106 tests, 13 suites)
-| Suite               | Tests | Notas |
-| ------------------- | ----- | ----- |
-| useHiveStore        | 39    | Store Zustand completo |
-| SessionList         | 19    | Revocación, renderizado |
-| TaskCard            | 12    | Renderizado, acciones |
-| FocusTimer          | 12    | Temporizador, estados |
-| OnboardingTour      | 12    | Pasos, navegación, i18n (89.64% coverage) |
-| Importer            | 21    | CSV parsing ES/EN |
+| Suite               | Tests | Notes                                    |
+| ------------------- | ----- | ---------------------------------------- |
+| useHiveStore        | 39    | Full Zustand store                       |
+| SessionList         | 19    | Revocation, rendering                    |
+| TaskCard            | 12    | Rendering, actions                       |
+| FocusTimer          | 12    | Timer, states                            |
+| OnboardingTour      | 12    | Steps, navigation, i18n (89.64% coverage)|
+| Importer            | 21    | CSV parsing ES/EN                        |
 | Exporter            | 8     | CSV blob, BOM, filename, edge cases (100% coverage) |
 | password-validation | 12    | checkPassword + validatePassword (Zod + regex) |
-| rate-limit          | 8     | Unique IPs per test para evitar estado compartido |
-| useDebounce         | 3     | Debounce hook con wait |
-| useBeeStats         | 7     | Cálculo de estadísticas semanales |
-| useBeePersistence   | 3     | Persistencia y carga de datos |
-| useHiveProjection   | 8     | Filtros y proyección de datos |
-| useSessionTracker   | 5     | heartbeat, deviceId, localStorage |
-| theme               | 3     | Tema claro/oscuro, persistencia |
-| Otros               | 8     | sanitize, id, middleware, placeholder |
+| rate-limit          | 8     | Unique IPs per test to avoid shared state |
+| useDebounce         | 3     | Debounce hook with wait                  |
+| useBeeStats         | 7     | Weekly statistics calculation            |
+| useBeePersistence   | 3     | Data persistence and loading             |
+| useHiveProjection   | 8     | Filters and data projection              |
+| useSessionTracker   | 5     | heartbeat, deviceId, localStorage        |
+| theme               | 3     | Light/dark theme, persistence            |
+| Other               | 8     | sanitize, id, middleware, placeholder    |
 
 ### E2E (6 specs)
-| Spec              | Flujo |
-| ----------------- | ----- |
-| auth.spec         | Registro, login, logout |
-| tasks.spec        | CRUD de tareas |
-| focus.spec        | Pomodoro timer |
-| full-flow.spec    | Recorrido completo |
-| reset-password    | Forgot + reset password |
+| Spec              | Flow                              |
+| ----------------- | --------------------------------- |
+| auth.spec         | Register, login, logout           |
+| tasks.spec        | CRUD tasks                        |
+| focus.spec        | Pomodoro timer                    |
+| full-flow.spec    | Complete journey                  |
+| reset-password    | Forgot + reset password           |
 | import-export     | CSV export, empty state, import button |
 
-## Cobertura
+## Coverage
 
-| Métrica    | Threshold | Actual | Estado |
+| Metric     | Threshold | Actual | Status |
 | ---------- | --------- | ------ | ------ |
 | Statements | 80%       | 87.07% | ✅     |
 | Branches   | 74%       | 79.07% | ✅     |
 | Functions  | 60%       | 75.22% | ✅     |
 | Lines      | 80%       | 87.07% | ✅     |
 
-## Ejecución
+## Running
 
 ```bash
-pnpm test          # Tests unitarios + API con coverage
+pnpm test          # Unit + API tests with coverage
 pnpm test:watch    # Watch mode
-pnpm test:e2e      # Tests E2E (Playwright)
+pnpm test:e2e      # E2E tests (Playwright)
 pnpm preflight     # typecheck + lint + test
 ```

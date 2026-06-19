@@ -1,74 +1,74 @@
 # Maintenance Guide
 
-> Última actualización: 2026-06-11
+> Last updated: 2026-06-19
 
 ---
 
-## Estado
+## Status
 
-El proyecto está en **Maintenance Mode**. No hay desarrollo activo planificado.
-
----
-
-## Permitido
-
-- Corregir bugs
-- Actualizar dependencias
-- Parches de seguridad (rate limits faltantes, account lockout)
-- Mover DSNs a env vars de runtime
-
-## No permitido
-
-- Features nuevas
-- Rediseños
-- Rehacer módulos
-- BeeHive v2 dentro del mismo proyecto
+The project is in **Maintenance Mode**. No active development planned.
 
 ---
 
-## Proceso de mantenimiento
+## Allowed
 
-### 1. Desarrollo local
+- Bug fixes
+- Dependency updates
+- Security patches (missing rate limits, account lockout)
+- Move DSNs to runtime env vars
+
+## Not allowed
+
+- New features
+- Redesigns
+- Module rewrites
+- BeeHive v2 within the same project
+
+---
+
+## Maintenance process
+
+### 1. Local development
 
 ```bash
-pnpm dev              # Desarrollo local
+pnpm dev              # Local development
 pnpm typecheck        # TypeScript check
 pnpm lint             # ESLint
-pnpm test             # Tests unitarios
-pnpm test:e2e         # Tests E2E
-pnpm preflight        # Todo junto
+pnpm test             # Unit + API tests
+pnpm test:e2e         # E2E tests
+pnpm preflight        # All together
 ```
 
-### 2. Publicar cambios
+### 2. Publishing changes
 
 ```bash
 pnpm preflight
 git add -A
-git commit -m "tipo: descripción"
+git commit -m "type: description"
 git push
 ```
 
-La pipeline de CI/CD despliega automáticamente a producción (main) o staging (develop).
+The CI/CD pipeline auto-deploys to production (main) or staging (develop).
 
 ### 3. Post-deploy
 
-- Verificar en https://dashboard.josmarypirela.dev
-- Revisar Sentry por errores nuevos
-- Probar flujo completo: login → crear tarea → pomodoro → kanban → export
+- Verify at https://dashboard.josmarypirela.dev
+- Check Sentry for new errors
+- Test full flow: login → create task → pomodoro → kanban → export
 
 ---
 
 ## Stack
 
-| Capa               | Tecnología                    |
+| Layer              | Technology                    |
 | ------------------ | ----------------------------- |
 | Framework          | Next.js 15                    |
 | UI                 | React 19, Tailwind CSS 4      |
-| Estado             | Zustand 5                     |
-| Persistencia local | Dexie.js (IndexedDB)          |
+| State              | Zustand 5                     |
+| Local persistence  | Dexie.js (IndexedDB)          |
 | Drag & drop        | @dnd-kit                      |
-| Base de datos      | Neon PostgreSQL + Drizzle ORM |
-| Autenticación      | bcryptjs, httpOnly cookies    |
-| Monitoreo          | Sentry (client/server/edge)   |
+| Database           | Neon PostgreSQL + Drizzle ORM |
+| Authentication     | bcryptjs, httpOnly cookies    |
+| Monitoring         | Sentry (client/server/edge)   |
 | CI/CD              | GitHub Actions                |
 | Hosting            | Vercel                        |
