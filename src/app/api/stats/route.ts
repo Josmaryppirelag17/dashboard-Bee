@@ -43,7 +43,12 @@ export async function PUT(request: NextRequest) {
       if (body[field] !== undefined) updateData[field] = body[field];
     }
 
-    const jsonFields = ["weeklyFocusMins", "weeklyTasksCompleted", "unlockedAchievements", "claimedQuests"];
+    const jsonFields = [
+      "weeklyFocusMins",
+      "weeklyTasksCompleted",
+      "unlockedAchievements",
+      "claimedQuests",
+    ];
     for (const field of jsonFields) {
       if (body[field] !== undefined) updateData[field] = JSON.stringify(body[field]);
     }

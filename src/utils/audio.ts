@@ -2,8 +2,9 @@
 
 function getAudioContext(): AudioContext | null {
   try {
-    const AudioCtx = window.AudioContext
-      || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     return new AudioCtx();
   } catch {
     return null;

@@ -2,6 +2,9 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useHiveStore } from "@/store/useHiveStore";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("AuthContext");
 
 interface User {
   id: number;
@@ -14,6 +17,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  sessionId: number | null;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   register: (
     email: string,
@@ -39,6 +43,7 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sessionId, setSessionId] = useState<number | null>(null);
 
   const checkSession = useCallback(async () => {
     try {
@@ -47,11 +52,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const json = await res.json();
       if (json.success && json.data.authenticated) {
         setUser(json.data.user);
+        setSessionId(json.data.sessionId ?? null);
       } else {
         setUser(null);
+        setSessionId(null);
       }
     } catch {
       setUser(null);
+      setSessionId(null);
     } finally {
       setLoading(false);
     }
@@ -80,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const json = await res.json();
       if (json.success) {
         setUser(json.data.user);
+        setSessionId(json.data.sessionId ?? null);
         const store = useHiveStore.getState();
         store.setUserId(json.data.user.id);
 
@@ -132,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }),
           });
         } catch (e) {
-          console.error("Sync after login failed:", e);
+          log.error("Sync after login failed", e);
         }
         return { success: true };
       }
@@ -180,7 +189,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               }),
             });
           } catch (e) {
-            console.error("Sync after register failed:", e);
+            log.error("Sync after register failed", e);
           }
           await store.loadTasks();
           return { success: true };
@@ -201,11 +210,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await fetch("/api/auth/logout", { method: "POST" });
     } finally {
       setUser(null);
+      setSessionId(null);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, checkSession }}>
+    <AuthContext.Provider
+      value={{ user, loading, sessionId, login, register, logout, checkSession }}
+    >
       {children}
     </AuthContext.Provider>
   );

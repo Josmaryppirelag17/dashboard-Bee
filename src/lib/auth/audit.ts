@@ -1,6 +1,9 @@
 import { auditLogs } from "@/lib/db/schema";
 import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
 import type * as schema from "@/lib/db/schema";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("audit");
 
 export const AUDIT_ACTIONS = {
   REGISTER: "register",
@@ -30,6 +33,6 @@ export async function logAuditEvent(
       metadata: metadata ?? null,
     });
   } catch (err) {
-    console.error(`[audit] Failed to log ${action}:`, err);
+    log.error(`Failed to log ${action}`, err);
   }
 }

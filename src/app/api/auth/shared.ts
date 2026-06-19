@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getDbError } from "@/lib/db/connection";
 import { getCurrentUser } from "@/lib/auth";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("api/shared");
 
 export function apiSuccess<T>(data: T, status = 200) {
   return NextResponse.json({ success: true, data }, { status });
@@ -11,7 +14,7 @@ export function apiError(status: number, code: string, message: string) {
 }
 
 export function handleApiError(tag: string, error: unknown) {
-  console.error(`[${tag}]`, error);
+  log.error(`[${tag}]`, error);
   const dbErr = getDbError();
   return apiError(
     500,
@@ -50,7 +53,17 @@ export function badRequestResponse(message: string) {
   return apiError(400, "BAD_REQUEST", message);
 }
 
-export function mapTask(r: { taskId: string; title: string; completed: boolean | null; priority: string | null; category: string | null; pollenUnits: number | null; columnId: string | null; notes: string | null; dueDate: string | null }) {
+export function mapTask(r: {
+  taskId: string;
+  title: string;
+  completed: boolean | null;
+  priority: string | null;
+  category: string | null;
+  pollenUnits: number | null;
+  columnId: string | null;
+  notes: string | null;
+  dueDate: string | null;
+}) {
   return {
     id: r.taskId,
     title: r.title,
@@ -64,7 +77,17 @@ export function mapTask(r: { taskId: string; title: string; completed: boolean |
   };
 }
 
-export function mapStats(s: { xp: number | null; level: number | null; totalFocusMins: number | null; streakCount: number | null; weeklyFocusMins: string | null; weeklyTasksCompleted: string | null; userBeeName: string | null; unlockedAchievements: string | null; claimedQuests: string | null }) {
+export function mapStats(s: {
+  xp: number | null;
+  level: number | null;
+  totalFocusMins: number | null;
+  streakCount: number | null;
+  weeklyFocusMins: string | null;
+  weeklyTasksCompleted: string | null;
+  userBeeName: string | null;
+  unlockedAchievements: string | null;
+  claimedQuests: string | null;
+}) {
   return {
     xp: s.xp ?? 0,
     level: s.level ?? 1,

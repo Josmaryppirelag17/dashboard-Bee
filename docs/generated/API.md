@@ -12,13 +12,14 @@ This application is primarily **client-side**. Task, session, and gamification d
 
 ## Next.js API Endpoints
 
-| Method | Route | Description |
-|--------|------|-------------|
-| `GET` | `/api/health` | Server health check |
-| `GET` | `/api/latest` | Current API version |
-| `GET` | `/api/v1` | API v1 endpoint (placeholder) |
+| Method | Route         | Description                   |
+| ------ | ------------- | ----------------------------- |
+| `GET`  | `/api/health` | Server health check           |
+| `GET`  | `/api/latest` | Current API version           |
+| `GET`  | `/api/v1`     | API v1 endpoint (placeholder) |
 
 ### `GET /api/health`
+
 **File:** `src/app/api/health/route.ts`
 **Returns:** `{ status: "ok", timestamp: string }`
 
@@ -26,10 +27,10 @@ This application is primarily **client-side**. Task, session, and gamification d
 
 ## Persistence (Client-side)
 
-| Storage | Technology | Purpose |
-|---------------|------------|-----------|
-| IndexedDB | Dexie.js | Tasks, notes, settings |
-| localStorage | — | XP, level, achievements, streaks, weekly metrics, session deviceId |
+| Storage      | Technology | Purpose                                                            |
+| ------------ | ---------- | ------------------------------------------------------------------ |
+| IndexedDB    | Dexie.js   | Tasks, notes, settings                                             |
+| localStorage | —          | XP, level, achievements, streaks, weekly metrics, session deviceId |
 
 ## Data Export
 

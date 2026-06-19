@@ -1,7 +1,19 @@
 const COMMON_PASSWORDS = new Set([
-  "password", "12345678", "123456789", "1234567890", "qwerty123",
-  "admin123", "letmein", "welcome1", "monkey123", "dragon123",
-  "abc12345", "password1", "1234abcd", "passw0rd", "iloveyou",
+  "password",
+  "12345678",
+  "123456789",
+  "1234567890",
+  "qwerty123",
+  "admin123",
+  "letmein",
+  "welcome1",
+  "monkey123",
+  "dragon123",
+  "abc12345",
+  "password1",
+  "1234abcd",
+  "passw0rd",
+  "iloveyou",
 ]);
 
 export const PASSWORD_RULES = {

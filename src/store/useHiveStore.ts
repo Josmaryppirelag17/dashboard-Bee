@@ -7,6 +7,9 @@ import { secureRandomIndex } from "../utils/random";
 import { playTone, playArpeggio } from "../utils/audio";
 import type { BeehiveDatabase } from "../lib/db";
 import { api } from "../lib/api-client";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger("useHiveStore");
 
 interface HiveState {
   tasks: Task[];
@@ -164,7 +167,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
         set({ savingStatus: "idle" });
       }, 1800);
     } catch (err) {
-      console.error("Dexie database transaction failed:", err);
+      log.error("Dexie database transaction failed", err);
       set({ savingStatus: "idle" });
     }
   },
@@ -178,7 +181,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
           set({ tasks: res.data });
         }
       } catch (e) {
-        console.error("Failed to load tasks from cloud:", e);
+        log.error("Failed to load tasks from cloud", e);
       }
     } else {
       const db = await getDB();

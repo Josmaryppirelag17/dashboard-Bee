@@ -47,7 +47,12 @@ export async function POST(request: NextRequest) {
 
     if (localStats && typeof localStats === "object") {
       const statsUpdate: Record<string, unknown> = {};
-      const stringFields = ["weeklyFocusMins", "weeklyTasksCompleted", "unlockedAchievements", "claimedQuests"];
+      const stringFields = [
+        "weeklyFocusMins",
+        "weeklyTasksCompleted",
+        "unlockedAchievements",
+        "claimedQuests",
+      ];
       for (const key of stringFields) {
         if (localStats[key] !== undefined) statsUpdate[key] = JSON.stringify(localStats[key]);
       }

@@ -1,7 +1,9 @@
 import { NextRequest } from "next/server";
 import { eq, and } from "drizzle-orm";
+import { z } from "zod";
 import { getDb } from "@/lib/db/connection";
 import { tasks as tasksSchema } from "@/lib/db/schema";
+import { checkRateLimit } from "@/lib/rate-limit";
 import {
   apiSuccess,
   handleApiError,
@@ -9,13 +11,44 @@ import {
   unauthorizedResponse,
   requireUser,
   badRequestResponse,
+  validationErrorResponse,
+  rateLimitedResponse,
   mapTask,
 } from "../auth/shared";
+
+const PRIORITIES = ["LOW", "MEDIUM", "HIGH"] as const;
+const COLUMNS = ["todo", "in_progress", "completed"] as const;
+
+const createTaskSchema = z.object({
+  taskId: z.string().min(1, "taskId is required").max(255),
+  title: z.string().min(1, "title is required").max(500),
+  completed: z.boolean().optional(),
+  priority: z.enum(PRIORITIES).optional(),
+  category: z.string().max(100).optional(),
+  pollenUnits: z.number().int().min(0).max(9999).optional(),
+  columnId: z.enum(COLUMNS).optional(),
+  notes: z.string().optional().nullable(),
+  dueDate: z.string().max(50).optional().nullable(),
+});
+
+const updateTaskSchema = z.object({
+  taskId: z.string().min(1, "taskId is required").max(255),
+  title: z.string().min(1).max(500).optional(),
+  completed: z.boolean().optional(),
+  priority: z.enum(PRIORITIES).optional(),
+  category: z.string().max(100).optional(),
+  pollenUnits: z.number().int().min(0).max(9999).optional(),
+  columnId: z.enum(COLUMNS).optional(),
+  notes: z.string().optional().nullable(),
+  dueDate: z.string().max(50).optional().nullable(),
+});
 
 export async function GET() {
   try {
     const user = await requireUser();
     if (!user) return unauthorizedResponse();
+    if (!checkRateLimit(`tasks:${user.id}`, 120, 60 * 1000).allowed)
+      return rateLimitedResponse();
 
     const db = getDb();
     if (!db) return dbNotConfiguredResponse();
@@ -31,12 +64,16 @@ export async function POST(request: NextRequest) {
   try {
     const user = await requireUser();
     if (!user) return unauthorizedResponse();
+    if (!checkRateLimit(`tasks:${user.id}`, 120, 60 * 1000).allowed)
+      return rateLimitedResponse();
 
     const body = await request.json();
-    const { taskId, title, completed, priority, category, pollenUnits, columnId, notes, dueDate } =
-      body;
+    const parsed = createTaskSchema.safeParse(body);
+    if (!parsed.success)
+      return validationErrorResponse(parsed.error.issues.map((i) => i.message).join(", "));
 
-    if (!taskId || !title) return badRequestResponse("taskId and title are required");
+    const { taskId, title, completed, priority, category, pollenUnits, columnId, notes, dueDate } =
+      parsed.data;
 
     const db = getDb();
     if (!db) return dbNotConfiguredResponse();
@@ -64,17 +101,28 @@ export async function PUT(request: NextRequest) {
   try {
     const user = await requireUser();
     if (!user) return unauthorizedResponse();
+    if (!checkRateLimit(`tasks:${user.id}`, 120, 60 * 1000).allowed)
+      return rateLimitedResponse();
 
     const body = await request.json();
-    const { taskId, ...updates } = body;
-    if (!taskId) return badRequestResponse("taskId is required");
+    const parsed = updateTaskSchema.safeParse(body);
+    if (!parsed.success)
+      return validationErrorResponse(parsed.error.issues.map((i) => i.message).join(", "));
+
+    const { taskId, ...updates } = parsed.data;
 
     const db = getDb();
     if (!db) return dbNotConfiguredResponse();
 
     const allowedFields = [
-      "title", "completed", "priority", "category",
-      "pollenUnits", "columnId", "notes", "dueDate",
+      "title",
+      "completed",
+      "priority",
+      "category",
+      "pollenUnits",
+      "columnId",
+      "notes",
+      "dueDate",
     ] as const;
     const updateData: Record<string, unknown> = {};
     for (const field of allowedFields) {
@@ -98,6 +146,8 @@ export async function DELETE(request: NextRequest) {
   try {
     const user = await requireUser();
     if (!user) return unauthorizedResponse();
+    if (!checkRateLimit(`tasks:${user.id}`, 120, 60 * 1000).allowed)
+      return rateLimitedResponse();
 
     const { searchParams } = new URL(request.url);
     const taskId = searchParams.get("taskId");

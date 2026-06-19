@@ -2,7 +2,6 @@
 
 > Gamified productivity dashboard with Pomodoro, Kanban, XP quests and user authentication.
 
-
 [![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen)]()
 [![Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A%2B-brightgreen)]()
 [![CI](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml)
@@ -10,20 +9,19 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Josmaryppirelag17_Dashboard-Bee&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Josmaryppirelag17_Dashboard-Bee)
 
-
 ![OG Image](public/og-image.svg)
 
 ---
 
 ## 📊 Quality Audits
 
-| Category | Score (Desktop) | Score (Mobile) | Tool |
-|---|---|---|---|
-| **Performance** | 91/100 | 97/100 | PageSpeed Insights |
-| **Accessibility** | 93/100 | 93/100 | PageSpeed Insights |
-| **Best Practices** | 96/100 | 96/100 | PageSpeed Insights |
-| **SEO** | 100/100 | 100/100 | PageSpeed Insights |
-| **Security** | A+ 🏆 | A+ 🏆 | Mozilla Observatory |
+| Category           | Score (Desktop) | Score (Mobile) | Tool                |
+| ------------------ | --------------- | -------------- | ------------------- |
+| **Performance**    | 91/100          | 97/100         | PageSpeed Insights  |
+| **Accessibility**  | 93/100          | 93/100         | PageSpeed Insights  |
+| **Best Practices** | 96/100          | 96/100         | PageSpeed Insights  |
+| **SEO**            | 100/100         | 100/100        | PageSpeed Insights  |
+| **Security**       | A+ 🏆           | A+ 🏆          | Mozilla Observatory |
 
 > ✅ **Mozilla Observatory**: A+ (10/10 tests passed) — nonce-based CSP.
 
@@ -35,80 +33,79 @@
 
 ### Desktop
 
-| Metric | Value | Rating |
-|---|---|---|
-| **First Contentful Paint** | 0.2 s | ✅ Good |
+| Metric                       | Value | Rating  |
+| ---------------------------- | ----- | ------- |
+| **First Contentful Paint**   | 0.2 s | ✅ Good |
 | **Largest Contentful Paint** | 0.6 s | ✅ Good |
-| **Total Blocking Time** | 20 ms | ✅ Good |
-| **Cumulative Layout Shift** | 0.01 | ✅ Good |
-| **Speed Index** | 1.2 s | ✅ Good |
+| **Total Blocking Time**      | 20 ms | ✅ Good |
+| **Cumulative Layout Shift**  | 0.01  | ✅ Good |
+| **Speed Index**              | 1.2 s | ✅ Good |
 
 ### Mobile
 
-| Metric | Value | Rating |
-|---|---|---|
-| **First Contentful Paint** | 0.2 s | ✅ Good |
+| Metric                       | Value | Rating  |
+| ---------------------------- | ----- | ------- |
+| **First Contentful Paint**   | 0.2 s | ✅ Good |
 | **Largest Contentful Paint** | 0.6 s | ✅ Good |
-| **Total Blocking Time** | 10 ms | ✅ Good |
-| **Cumulative Layout Shift** | 0.01 | ✅ Good |
-| **Speed Index** | 1.8 s | ✅ Good |
+| **Total Blocking Time**      | 10 ms | ✅ Good |
+| **Cumulative Layout Shift**  | 0.01  | ✅ Good |
+| **Speed Index**              | 1.8 s | ✅ Good |
 
 > 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
-
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| **Pomodoro Timer** | Configurable timer with active task selector and completion confirmation |
-| **Kanban Board** | Task management with drag & drop (To do → In progress → Done) |
-| **Gamification** | XP from claimable quests with level-based ranking system |
-| **Weekly statistics** | SVG charts of focus time and daily efficiency |
-| **CSV Import/Export** | Backup and restore tasks in CSV format |
-| **Authentication** | Registration, login, forgot/reset password with bcryptjs, httpOnly cookies and DB sessions |
-| **i18n** | Spanish and English with hot-switching (includes auth forms) |
-| **Markdown Notes** | Per-task Markdown note editor with preview (lazy-loaded) |
+| Feature               | Description                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| **Pomodoro Timer**    | Configurable timer with active task selector and completion confirmation                   |
+| **Kanban Board**      | Task management with drag & drop (To do → In progress → Done)                              |
+| **Gamification**      | XP from claimable quests with level-based ranking system                                   |
+| **Weekly statistics** | SVG charts of focus time and daily efficiency                                              |
+| **CSV Import/Export** | Backup and restore tasks in CSV format                                                     |
+| **Authentication**    | Registration, login, forgot/reset password with bcryptjs, httpOnly cookies and DB sessions |
+| **i18n**              | Spanish and English with hot-switching (includes auth forms)                               |
+| **Markdown Notes**    | Per-task Markdown note editor with preview (lazy-loaded)                                   |
 
 ---
 
 ## 🚀 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 15 (App Router) |
-| **UI** | React 19 + Tailwind CSS 4 + Motion |
-| **State** | Zustand (global store) |
-| **Local persistence** | IndexedDB via Dexie.js |
-| **Cloud persistence** | Neon (PostgreSQL) + Drizzle ORM (with auth) |
-| **Authentication** | bcryptjs + httpOnly cookies + DB sessions |
-| **Drag & Drop** | @dnd-kit |
-| **Forms** | react-hook-form + Zod |
-| **Logger** | Context-scoped structured Logger |
-| **Typography** | Inter (self-hosted via next/font) |
-| **Tests** | Vitest (unit) + Playwright (e2e) |
-| **Monitoring** | Sentry (error tracking + performance) |
-| **Orchestration** | Turborepo |
-| **Quality** | SonarQube + TypeScript strict + ESLint + Prettier |
+| Layer                 | Technology                                        |
+| --------------------- | ------------------------------------------------- |
+| **Framework**         | Next.js 15 (App Router)                           |
+| **UI**                | React 19 + Tailwind CSS 4 + Motion                |
+| **State**             | Zustand (global store)                            |
+| **Local persistence** | IndexedDB via Dexie.js                            |
+| **Cloud persistence** | Neon (PostgreSQL) + Drizzle ORM (with auth)       |
+| **Authentication**    | bcryptjs + httpOnly cookies + DB sessions         |
+| **Drag & Drop**       | @dnd-kit                                          |
+| **Forms**             | react-hook-form + Zod                             |
+| **Logger**            | Context-scoped structured Logger                  |
+| **Typography**        | Inter (self-hosted via next/font)                 |
+| **Tests**             | Vitest (unit) + Playwright (e2e)                  |
+| **Monitoring**        | Sentry (error tracking + performance)             |
+| **Orchestration**     | Turborepo                                         |
+| **Quality**           | SonarQube + TypeScript strict + ESLint + Prettier |
 
 ---
 
 ## 🛠️ Scripts
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start development server (Turborepo) |
-| `pnpm build` | Build for production (Turborepo with cache) |
-| `pnpm test` | Unit tests with coverage (104 tests) |
-| `pnpm test:e2e` | End-to-end tests with Playwright |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm lint` | ESLint (flat config, no circular ref) |
-| `pnpm preflight` | typecheck + lint + test (CI ready) |
-| `pnpm format` | Format code with Prettier |
-| `pnpm format:check` | Check formatting with Prettier |
-| `pnpm start` | Start production server (Next.js) |
-| `pnpm test:watch` | Tests in watch mode (Vitest) |
+| Command             | Description                                 |
+| ------------------- | ------------------------------------------- |
+| `pnpm dev`          | Start development server (Turborepo)        |
+| `pnpm build`        | Build for production (Turborepo with cache) |
+| `pnpm test`         | Unit tests with coverage (104 tests)        |
+| `pnpm test:e2e`     | End-to-end tests with Playwright            |
+| `pnpm typecheck`    | TypeScript type checking                    |
+| `pnpm lint`         | ESLint (flat config, no circular ref)       |
+| `pnpm preflight`    | typecheck + lint + test (CI ready)          |
+| `pnpm format`       | Format code with Prettier                   |
+| `pnpm format:check` | Check formatting with Prettier              |
+| `pnpm start`        | Start production server (Next.js)           |
+| `pnpm test:watch`   | Tests in watch mode (Vitest)                |
 
 ---
 
@@ -144,13 +141,13 @@ src/
 
 ### GitHub Actions (`.github/workflows/test.yml` + `.github/workflows/deploy.yml`)
 
-| Job | Commands | Artifacts (only on failure) |
-|---|---|---|
-| **quality** | `typecheck` → `lint` → `test` | `coverage/` |
-| **e2e** | `playwright install chromium` → `test:e2e` | `playwright-report/` |
-| **deploy-staging** | Build + Vercel Preview (branch `develop`) | — |
-| **deploy-prod** | Build + Vercel Production (branch `main`) | — |
-| **rollback** | Manual rollback via `workflow_dispatch` | — |
+| Job                | Commands                                   | Artifacts (only on failure) |
+| ------------------ | ------------------------------------------ | --------------------------- |
+| **quality**        | `typecheck` → `lint` → `test`              | `coverage/`                 |
+| **e2e**            | `playwright install chromium` → `test:e2e` | `playwright-report/`        |
+| **deploy-staging** | Build + Vercel Preview (branch `develop`)  | —                           |
+| **deploy-prod**    | Build + Vercel Production (branch `main`)  | —                           |
+| **rollback**       | Manual rollback via `workflow_dispatch`    | —                           |
 
 - `pnpm preflight` for pre-push hook
 - **Concurrency**: auto-cancel-in-progress per branch (`concurrency.group`)
@@ -164,28 +161,26 @@ src/
 
 BeeHive allows users to register and login to preserve their data across sessions. Without authentication, data is stored locally (IndexedDB) and lost when closing the browser.
 
-| Feature | Detail |
-|---|---|
-| **Registration** | Name, Last Name, Username, Email, Password + Confirmation |
-| **Validations** | Unique email, Unique username (alphanumeric regex), password: 8+ chars, 1 uppercase, 1 number, 1 special |
-| **Password checker** | Real-time dynamic checklist with [✓]/[ ] during registration; submit disabled if requirements not met |
-| **Forgot password** | "Forgot password?" link in login → `/auth/forgot-password` page (bee theme) |
-| **Reset** | API generates token (1h expiration), `/auth/reset-password/[token]` page for new password |
-| **Reset security** | All active sessions are invalidated on password reset |
-| **Security** | bcryptjs (12 rounds), httpOnly cookies, sessions with 7-day expiration |
-| **Login** | By email or username |
-| **Rate limiting** | Login 5/15min, Register 5/min, Forgot password 3/min (per IP) |
-| **Password validation** | Shared regex in `src/lib/password-validation.ts` (Zod + server-side + client-side widget) |
-| **i18n** | Auth forms and reset pages in Spanish and English |
-| **UX** | "Sign In" button always visible in sidebar, logout with icon |
+| Feature                 | Detail                                                                                                   |
+| ----------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Registration**        | Name, Last Name, Username, Email, Password + Confirmation                                                |
+| **Validations**         | Unique email, Unique username (alphanumeric regex), password: 8+ chars, 1 uppercase, 1 number, 1 special |
+| **Password checker**    | Real-time dynamic checklist with [✓]/[ ] during registration; submit disabled if requirements not met    |
+| **Forgot password**     | "Forgot password?" link in login → `/auth/forgot-password` page (bee theme)                              |
+| **Reset**               | API generates token (1h expiration), `/auth/reset-password/[token]` page for new password                |
+| **Reset security**      | All active sessions are invalidated on password reset                                                    |
+| **Security**            | bcryptjs (12 rounds), httpOnly cookies, sessions with 7-day expiration                                   |
+| **Login**               | By email or username                                                                                     |
+| **Rate limiting**       | Login 5/15min, Register 5/min, Forgot password 3/min (per IP)                                            |
+| **Password validation** | Shared regex in `src/lib/password-validation.ts` (Zod + server-side + client-side widget)                |
+| **i18n**                | Auth forms and reset pages in Spanish and English                                                        |
+| **UX**                  | "Sign In" button always visible in sidebar, logout with icon                                             |
 
 ---
-
 
 ## 📝 Logger
 
 Structured logger with levels (`debug`, `info`, `warn`, `error`) — silenced in production.
-
 
 ---
 
@@ -193,14 +188,14 @@ Structured logger with levels (`debug`, `info`, `warn`, `error`) — silenced in
 
 Configured with `turbo.json` for cached and parallel task execution:
 
-| Task | Depends on | Cache |
-|---|---|---|
-| `dev` | — | ❌ (persistent) |
-| `build` | `^build` | `.next/**` |
-| `lint` | `^build` | ❌ |
-| `typecheck` | `^build` | ❌ |
-| `test` | `build` | `coverage/**` |
-| `preflight` | typecheck + lint + test | ❌ |
+| Task        | Depends on              | Cache           |
+| ----------- | ----------------------- | --------------- |
+| `dev`       | —                       | ❌ (persistent) |
+| `build`     | `^build`                | `.next/**`      |
+| `lint`      | `^build`                | ❌              |
+| `typecheck` | `^build`                | ❌              |
+| `test`      | `build`                 | `coverage/**`   |
+| `preflight` | typecheck + lint + test | ❌              |
 
 Run with `pnpm turbo <task>` or directly `pnpm <task>` (PNPM runner).
 
@@ -214,14 +209,14 @@ See `.env.example` for required variables.
 
 ## ♿ Accessibility
 
-| Practice | Implementation |
-|---|---|
-| **Skip to content** | Skip link to main content |
-| **ARIA roles** | Semantic roles (`region`, `progressbar`, `button`) |
+| Practice             | Implementation                                       |
+| -------------------- | ---------------------------------------------------- |
+| **Skip to content**  | Skip link to main content                            |
+| **ARIA roles**       | Semantic roles (`region`, `progressbar`, `button`)   |
 | **Role progressbar** | Pomodoro timer with `aria-valuenow` and visual state |
-| **Focus management** | Visible focus and logical tab order |
-| **Contrast** | Sufficient contrast color palette |
-| **Alternative text** | Decorative icons with `aria-hidden` |
+| **Focus management** | Visible focus and logical tab order                  |
+| **Contrast**         | Sufficient contrast color palette                    |
+| **Alternative text** | Decorative icons with `aria-hidden`                  |
 
 ---
 

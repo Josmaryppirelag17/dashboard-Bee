@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { eq, or } from "drizzle-orm";
 import { getDb } from "@/lib/db/connection";
-import { users } from "@/lib/db/schema";
+import { users, sessions } from "@/lib/db/schema";
 import { verifyPassword, createSession, setSessionCookie } from "@/lib/auth";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
@@ -47,6 +47,10 @@ export async function POST(request: NextRequest) {
     const token = await createSession(user.id);
     await setSessionCookie(token);
 
+    let sessionId: number | null = null;
+    const [session] = await db.select().from(sessions).where(eq(sessions.token, token)).limit(1);
+    if (session) sessionId = session.id;
+
     return apiSuccess({
       user: {
         id: user.id,
@@ -55,6 +59,7 @@ export async function POST(request: NextRequest) {
         name: user.name,
         lastName: user.lastName,
       },
+      sessionId,
     });
   } catch (error) {
     return handleApiError("auth/login", error);

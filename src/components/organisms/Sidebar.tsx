@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   LayoutDashboard,
   Flame,
@@ -10,6 +10,7 @@ import {
   Dice5,
   Globe,
   Award,
+  Monitor,
 } from "lucide-react";
 import { SidebarItem } from "@/types";
 import { THEME } from "@/theme";
@@ -17,6 +18,8 @@ import { useHiveStore } from "@/store/useHiveStore";
 import { translations } from "@/utils/translations";
 import { secureRandomIndex } from "@/utils/random";
 import AuthButton from "@/components/molecules/AuthButton";
+import SessionList from "@/components/molecules/SessionList";
+import { useAuth } from "@/context/AuthContext";
 
 interface SidebarProps {
   currentTab: string;
@@ -67,6 +70,8 @@ export default function Sidebar({
   const language = useHiveStore((state) => state.language);
   const setLanguage = useHiveStore((state) => state.setLanguage);
   const t = translations[language];
+  const { user } = useAuth();
+  const [sessionListOpen, setSessionListOpen] = useState(false);
 
   // Retrieve state and functions from store
   const userBeeName = useHiveStore((state) => state.userBeeName);
@@ -291,6 +296,23 @@ export default function Sidebar({
 
         {/* Auth Button */}
         <AuthButton collapsed={isCollapsed} />
+
+        {/* Sessions Button (only when logged in) */}
+        {user && (
+          <>
+            <button
+              type="button"
+              onClick={() => setSessionListOpen(true)}
+              className={`w-full flex items-center ${
+                isCollapsed ? "justify-center" : "space-x-2 px-3.5"
+              } py-2.5 bg-white border border-[#ebdcb9]/60 text-[#5c5449] hover:text-[#e28800] hover:border-[#e28800]/40 font-bold rounded-xl text-[10px] uppercase tracking-wider transition-all`}
+            >
+              <Monitor className="w-4 h-4" />
+              {!isCollapsed && <span>{language === "en" ? "Sessions" : "Sesiones"}</span>}
+            </button>
+            <SessionList open={sessionListOpen} onClose={() => setSessionListOpen(false)} />
+          </>
+        )}
 
         {/* User Card */}
         <div

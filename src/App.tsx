@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, lazy, Suspense, useMemo } from "react";
+import { createLogger } from "@/lib/logger";
 import {
   Calendar,
   HelpCircle,
@@ -21,15 +22,16 @@ import type { Metric } from "@/types";
 import Sidebar from "@/components/organisms/Sidebar";
 import { MainTemplate } from "@/components/organisms/MainTemplate";
 import { MetricCard } from "@/components/organisms/MetricCard";
+import { useTasks } from "@/hooks/useTasks";
+import { useBeeStats } from "@/hooks/useBeeStats";
+import { useHiveStore } from "@/store/useHiveStore";
+
+const log = createLogger("App");
 
 const TaskBoard = lazy(() => import("@/components/organisms/TaskBoard"));
 const FocusTimer = lazy(() => import("@/components/organisms/FocusTimer"));
 const StatsChart = lazy(() => import("@/components/organisms/StatsChart"));
 const HiveProjectionCard = lazy(() => import("@/components/organisms/HiveProjectionCard"));
-
-import { useTasks } from "@/hooks/useTasks";
-import { useBeeStats } from "@/hooks/useBeeStats";
-import { useHiveStore } from "@/store/useHiveStore";
 import { useBeeToasts } from "@/context/BeeToastContext";
 import { useSessionTracker } from "@/hooks/useSessionTracker";
 import { translations } from "@/utils/translations";
@@ -164,7 +166,7 @@ export default function App() {
       );
       useHiveStore.getState().unlockAchievement("honey-exporter");
     } catch (err) {
-      console.error("CSV Extraction failed:", err);
+      log.error("CSV Extraction failed", err);
       showToast(
         language === "en"
           ? "Error processing CSV export"
@@ -202,7 +204,7 @@ export default function App() {
           "success",
         );
       } catch (err) {
-        console.error("CSV Import parse failure:", err);
+        log.error("CSV Import parse failure", err);
         showToast(
           language === "en"
             ? "Format issue - could not parse CSV."
@@ -524,8 +526,9 @@ export default function App() {
                   up your Hive. Randomize bee personas anytime in the lower profile dashboard.
                 </li>
                 <li>
-                  <strong>CSV Backups</strong>: Safeguard your tasks via <strong>Export CSV</strong> and restore
-                  datasets fluidly anytime through the newly integrated <strong>Import CSV</strong> module!
+                  <strong>CSV Backups</strong>: Safeguard your tasks via <strong>Export CSV</strong>{" "}
+                  and restore datasets fluidly anytime through the newly integrated{" "}
+                  <strong>Import CSV</strong> module!
                 </li>
                 <li>
                   <strong>Core Metrics</strong>: Real-time monitoring of your status through
@@ -558,9 +561,9 @@ export default function App() {
                   subir de nivel. Modifica tu nombre de abeja en la parte inferior cuando gustes.
                 </li>
                 <li>
-                  <strong>Backups de Datos</strong>: Guarda tus labores vía <strong>Exportar CSV</strong> y
-                  restáuralas en cualquier momento con el nuevo cargador <strong>Importar CSV</strong> del panel
-                  general.
+                  <strong>Backups de Datos</strong>: Guarda tus labores vía{" "}
+                  <strong>Exportar CSV</strong> y restáuralas en cualquier momento con el nuevo
+                  cargador <strong>Importar CSV</strong> del panel general.
                 </li>
                 <li>
                   <strong>Celdas Principales</strong>: Supervisa en tiempo real tus métricas con los

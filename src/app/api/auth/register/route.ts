@@ -48,7 +48,8 @@ export async function POST(request: NextRequest) {
     if (!db) return dbNotConfiguredResponse();
 
     const [existingEmail] = await db.select().from(users).where(eq(users.email, email)).limit(1);
-    if (existingEmail) return apiError(409, "EMAIL_TAKEN", "An account with this email already exists");
+    if (existingEmail)
+      return apiError(409, "EMAIL_TAKEN", "An account with this email already exists");
 
     const [existingUsername] = await db
       .select()

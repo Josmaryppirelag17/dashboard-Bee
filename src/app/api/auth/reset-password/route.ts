@@ -2,10 +2,12 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { resetPasswordWithToken } from "@/lib/auth";
 import { validatePassword } from "@/lib/password-validation";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   apiSuccess,
   apiError,
   handleApiError,
+  rateLimitedResponse,
   validationErrorResponse,
   weakPasswordResponse,
 } from "../shared";
@@ -17,6 +19,9 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = getClientIp(request);
+    if (!checkRateLimit(ip, 5, 60 * 1000).allowed) return rateLimitedResponse();
+
     const body = await request.json();
     const parsed = schema.safeParse(body);
     if (!parsed.success) return validationErrorResponse("Invalid input");
