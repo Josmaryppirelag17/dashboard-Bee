@@ -15,24 +15,20 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   projects: [
-    { name: "auth-setup", testMatch: /auth\.setup\.ts/ },
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"], storageState: ".auth/user.json" },
-      dependencies: ["auth-setup"],
+      use: { ...devices["Desktop Chrome"] },
     },
     ...(isCI
       ? []
       : [
           {
             name: "firefox",
-            use: { ...devices["Desktop Firefox"], storageState: ".auth/user.json" },
-            dependencies: ["auth-setup"],
+            use: { ...devices["Desktop Firefox"] },
           },
           {
             name: "webkit",
-            use: { ...devices["Desktop Safari"], storageState: ".auth/user.json" },
-            dependencies: ["auth-setup"],
+            use: { ...devices["Desktop Safari"] },
           },
         ]),
   ],
