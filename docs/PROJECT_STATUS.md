@@ -23,11 +23,13 @@
 | Inicio del proyecto         | 2026-05    |
 | GPQF Level 4 alcanzado      | 2026-06-11 |
 | Zod validation en Tasks API | 2026-06-11 |
-| CI typecheck fix + coverage | 2026-06-19 |
-| Onboarding Tour + tests     | 2026-06-19 |
-| Exporter unit tests         | 2026-06-19 |
-| E2E specs completadas       | 2026-06-19 |
-| Proyecto completo           | 2026-06-19 |
+| CI typecheck fix + coverage          | 2026-06-19 |
+| Onboarding Tour + tests              | 2026-06-19 |
+| Exporter unit tests                  | 2026-06-19 |
+| E2E specs completadas                | 2026-06-19 |
+| Coverage push: 49 nuevos tests       | 2026-06-19 |
+| E2E httpOnly cookie fix              | 2026-06-19 |
+| PageSpeed -> Performance 100 Desktop | 2026-06-19 |
 
 ---
 
@@ -53,19 +55,19 @@
 
 | Métrica                   | Valor                         |
 | ------------------------- | ----------------------------- |
-| Lighthouse Performance    | 91/100 Desktop, 97/100 Mobile |
-| Lighthouse Accessibility  | 93/100                        |
-| Lighthouse Best Practices | 96/100                        |
-| Lighthouse SEO            | 100/100                       |
-| Mozilla Observatory       | A+                            |
-| Tests unitarios + API     | 215 (17 suites)               |
-| Tests E2E                 | 6 specs (Playwright)          |
-| Cobertura statements      | 86.53%                        |
-| Cobertura branches        | 76.95%                        |
-| Cobertura functions       | 73.68%                        |
-| Cobertura lines           | 86.53%                        |
-| LCP                       | 0.6s                          |
-| CLS                       | 0.01                          |
+| Lighthouse Performance    | 100/100 Desktop, 96/100 Mobile |
+| Lighthouse Accessibility  | 93/100                         |
+| Lighthouse Best Practices | 96/100                         |
+| Lighthouse SEO            | 100/100                        |
+| Mozilla Observatory       | A+                             |
+| Tests unitarios + API     | 264 (25 suites)                |
+| Tests E2E                 | 6 specs (Playwright)           |
+| Cobertura statements      | 87.07%                         |
+| Cobertura branches        | 79.07%                         |
+| Cobertura functions       | 75.22%                         |
+| Cobertura lines           | 87.07%                         |
+| LCP                       | 0.6s                           |
+| CLS                       | 0.01                           |
 
 ---
 

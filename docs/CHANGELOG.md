@@ -4,6 +4,28 @@
 
 ---
 
+## [2.2.0] — 2026-06-19
+
+### Added
+
+- 49 nuevos tests unitarios (13 nuevas suites): password-validation (12), rate-limit (8), useDebounce (3), useBeeStats (7), useBeePersistence (3), useHiveProjection (8), useSessionTracker (5), theme (3)
+- SonarCloud exclusions sincronizadas con vitest config
+
+### Fixed
+
+- E2E auth cookie check: `document.cookie` → `page.context().cookies()` para httpOnly cookies
+- `AuthPage.ts` signInBtn locator: flag `/i` para "Sign In" vs "Sign in"
+- `password-validation.test.ts`: unused import TS6133
+- `useSessionTracker.test.tsx`: missing `beforeEach` import TS2304
+
+### Changed
+
+- Coverage thresholds met: 87.07% S, 79.07% B, 75.22% F, 87.07% L
+- Test total: 215 → 264 tests (25 suites)
+- PageSpeed: Performance 91→100 Desktop, 97→96 Mobile
+
+---
+
 ## [2.1.0] — 2026-06-19
 
 ### Added

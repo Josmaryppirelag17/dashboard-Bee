@@ -8,10 +8,6 @@
 - **Neon + Drizzle** para persistencia cloud con auth
 - **@dnd-kit** para drag & drop del Kanban
 
-## E2E tests no implementados (decisión consciente)
-
-Los ~104 tests unitarios dan suficiente confianza. El esfuerzo E2E no justifica el beneficio para un proyecto de portafolio.
-
 ## Logger estructurado no implementado
 
 `console.log` es suficiente para el tamaño del proyecto.

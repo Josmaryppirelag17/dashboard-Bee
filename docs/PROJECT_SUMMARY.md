@@ -30,8 +30,8 @@
 
 | Área        | Estado            |
 | ----------- | ----------------- |
-| Tests       | ✅ 104 tests      |
-| Performance | ✅ 91/100 Desktop |
-| Seguridad   | ✅ A+ Observatory |
-| E2E         | ⚠️ 1 test mínimo  |
-| Logger      | ⚠️ console.log    |
+| Tests       | ✅ 264 tests (25 suites) |
+| Performance | ✅ 100/100 Desktop       |
+| Seguridad   | ✅ A+ Observatory        |
+| E2E         | ✅ 6 specs (Playwright)  |
+| Logger      | ⚠️ console.log           |

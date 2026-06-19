@@ -20,8 +20,8 @@ Next.js 15 + React 19 + TypeScript + Tailwind CSS 4 + Neon/PostgreSQL + Drizzle 
 
 | Métrica     | Valor                             |
 | ----------- | --------------------------------- |
-| Tests       | 104 (7 suites)                    |
-| Performance | 91/100 (Desktop), 97/100 (Mobile) |
+| Tests       | 264 (25 suites)                   |
+| Performance | 100/100 (Desktop), 96/100 (Mobile) |
 | Seguridad   | A+ Observatory                    |
 | CWV         | LCP 0.6s, CLS 0.01                |
 | Estado      | GPQF Level 4 — Production Ready   |

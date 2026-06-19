@@ -4,10 +4,10 @@
 
 | Tipo            | Cantidad                   | Estado |
 | --------------- | -------------------------- | ------ |
-| Unitarios       | 55 tests (8 suites)        | ✅     |
+| Unitarios       | 106 tests (13 suites)      | ✅     |
 | Integración API | 67 tests (5 suites)        | ✅     |
 | E2E             | 6 specs (Playwright)       | ✅     |
-| **Total**       | **215 tests (17 suites)**  | ✅     |
+| **Total**       | **264 tests (25 suites)**  | ✅     |
 
 ## Tests existentes
 
@@ -20,17 +20,25 @@
 | Sync       | 4     | Push/pull, merge, authorization |
 | Analytics  | 3     | Event tracking, validation |
 
-### Unit (55 tests, 8 suites)
-| Suite            | Tests | Notas |
-| ---------------- | ----- | ----- |
-| useHiveStore     | 39    | Store Zustand completo |
-| SessionList      | 19    | Revocación, renderizado |
-| TaskCard         | 12    | Renderizado, acciones |
-| FocusTimer       | 12    | Temporizador, estados |
-| OnboardingTour   | 12    | Pasos, navegación, i18n (89.64% coverage) |
-| Importer         | 21    | CSV parsing ES/EN |
-| Exporter         | 8     | CSV blob, BOM, filename, edge cases (100% coverage) |
-| Otros            | 8     | sanitize, id, middleware, placeholder |
+### Unit (106 tests, 13 suites)
+| Suite               | Tests | Notas |
+| ------------------- | ----- | ----- |
+| useHiveStore        | 39    | Store Zustand completo |
+| SessionList         | 19    | Revocación, renderizado |
+| TaskCard            | 12    | Renderizado, acciones |
+| FocusTimer          | 12    | Temporizador, estados |
+| OnboardingTour      | 12    | Pasos, navegación, i18n (89.64% coverage) |
+| Importer            | 21    | CSV parsing ES/EN |
+| Exporter            | 8     | CSV blob, BOM, filename, edge cases (100% coverage) |
+| password-validation | 12    | checkPassword + validatePassword (Zod + regex) |
+| rate-limit          | 8     | Unique IPs per test para evitar estado compartido |
+| useDebounce         | 3     | Debounce hook con wait |
+| useBeeStats         | 7     | Cálculo de estadísticas semanales |
+| useBeePersistence   | 3     | Persistencia y carga de datos |
+| useHiveProjection   | 8     | Filtros y proyección de datos |
+| useSessionTracker   | 5     | heartbeat, deviceId, localStorage |
+| theme               | 3     | Tema claro/oscuro, persistencia |
+| Otros               | 8     | sanitize, id, middleware, placeholder |
 
 ### E2E (6 specs)
 | Spec              | Flujo |
@@ -46,10 +54,10 @@
 
 | Métrica    | Threshold | Actual | Estado |
 | ---------- | --------- | ------ | ------ |
-| Statements | 80%       | 86.53% | ✅     |
-| Branches   | 74%       | 76.95% | ✅     |
-| Functions  | 60%       | 73.68% | ✅     |
-| Lines      | 80%       | 86.53% | ✅     |
+| Statements | 80%       | 87.07% | ✅     |
+| Branches   | 74%       | 79.07% | ✅     |
+| Functions  | 60%       | 75.22% | ✅     |
+| Lines      | 80%       | 87.07% | ✅     |
 
 ## Ejecución
 

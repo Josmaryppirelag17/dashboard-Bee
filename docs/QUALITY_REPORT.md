@@ -6,7 +6,7 @@
 
 | Categoría      | Desktop | Mobile  |
 | -------------- | ------- | ------- |
-| Performance    | 91/100  | 97/100  |
+| Performance    | 100/100 | 96/100  |
 | Accessibility  | 93/100  | 93/100  |
 | Best Practices | 96/100  | 96/100  |
 | SEO            | 100/100 | 100/100 |
@@ -15,11 +15,11 @@
 
 | Métrica     | Desktop | Mobile |
 | ----------- | ------- | ------ |
-| FCP         | 0.2s    | 0.2s   |
-| LCP         | 0.6s    | 0.6s   |
-| TBT         | 20ms    | 10ms   |
-| CLS         | 0.01    | 0.01   |
-| Speed Index | 1.2s    | 1.8s   |
+| FCP         | 0.3s    | 1.2s   |
+| LCP         | 0.6s    | 2.6s   |
+| TBT         | 30ms    | 0ms    |
+| CLS         | 0.01    | 0      |
+| Speed Index | 0.8s    | 3.1s   |
 
 ## Mozilla Observatory
 

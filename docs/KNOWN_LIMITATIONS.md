@@ -4,19 +4,7 @@
 
 ---
 
-## 1. E2E tests mínimos
-
-`tests/e2e/example.spec.ts` contiene 1 test que solo verifica que el body sea visible. No hay tests E2E para auth, tasks, kanban, pomodoro ni export.
-
-**Impacto:** Medio. Riesgo de regresiones no detectadas.
-
 ---
-
-## 2. Sin tests de API routes
-
-No hay tests unitarios para los endpoints de auth, tasks, stats ni sync.
-
-**Impacto:** Medio. La lógica de API no tiene cobertura directa.
 
 ---
 

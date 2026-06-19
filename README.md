@@ -2,7 +2,7 @@
 
 > Gamified productivity dashboard with Pomodoro, Kanban, XP quests and user authentication.
 
-[![Tests](https://img.shields.io/badge/tests-215%20passed-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-264%20passed-brightgreen)]()
 [![Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A%2B-brightgreen)]()
 [![CI](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml)
 [![Deploy](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml)
@@ -17,7 +17,7 @@
 
 | Category           | Score (Desktop) | Score (Mobile) | Tool                |
 | ------------------ | --------------- | -------------- | ------------------- |
-| **Performance**    | 91/100          | 97/100         | PageSpeed Insights  |
+| **Performance**    | 100/100         | 96/100         | PageSpeed Insights  |
 | **Accessibility**  | 93/100          | 93/100         | PageSpeed Insights  |
 | **Best Practices** | 96/100          | 96/100         | PageSpeed Insights  |
 | **SEO**            | 100/100         | 100/100        | PageSpeed Insights  |
@@ -35,21 +35,21 @@
 
 | Metric                       | Value | Rating  |
 | ---------------------------- | ----- | ------- |
-| **First Contentful Paint**   | 0.2 s | ✅ Good |
+| **First Contentful Paint**   | 0.3 s | ✅ Good |
 | **Largest Contentful Paint** | 0.6 s | ✅ Good |
-| **Total Blocking Time**      | 20 ms | ✅ Good |
+| **Total Blocking Time**      | 30 ms | ✅ Good |
 | **Cumulative Layout Shift**  | 0.01  | ✅ Good |
-| **Speed Index**              | 1.2 s | ✅ Good |
+| **Speed Index**              | 0.8 s | ✅ Good |
 
 ### Mobile
 
 | Metric                       | Value | Rating  |
 | ---------------------------- | ----- | ------- |
-| **First Contentful Paint**   | 0.2 s | ✅ Good |
-| **Largest Contentful Paint** | 0.6 s | ✅ Good |
-| **Total Blocking Time**      | 10 ms | ✅ Good |
-| **Cumulative Layout Shift**  | 0.01  | ✅ Good |
-| **Speed Index**              | 1.8 s | ✅ Good |
+| **First Contentful Paint**   | 1.2 s | ✅ Good |
+| **Largest Contentful Paint** | 2.6 s | ✅ Good |
+| **Total Blocking Time**      | 0 ms  | ✅ Good |
+| **Cumulative Layout Shift**  | 0     | ✅ Good |
+| **Speed Index**              | 3.1 s | ✅ Good |
 
 > 🔗 [PageSpeed Insights report](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
 
@@ -98,7 +98,7 @@
 | ------------------- | ------------------------------------------- |
 | `pnpm dev`          | Start development server (Turborepo)        |
 | `pnpm build`        | Build for production (Turborepo with cache) |
-| `pnpm test`         | Unit + API tests with coverage (215 tests)  |
+| `pnpm test`         | Unit + API tests with coverage (264 tests)  |
 | `pnpm test:e2e`     | End-to-end tests with Playwright            |
 | `pnpm typecheck`    | TypeScript type checking                    |
 | `pnpm lint`         | ESLint (flat config, no circular ref)       |
@@ -113,7 +113,7 @@
 ## 🧪 Tests
 
 ```bash
-pnpm test        # Unit + API + integration (Vitest) — 215 tests, 17 suites
+pnpm test        # Unit + API + integration (Vitest) — 264 tests, 25 suites
 pnpm test:e2e    # E2E (Playwright: auth, tasks, focus, full-flow, reset-password, import-export)
 pnpm preflight   # typecheck + lint + test (CI pipeline)
 ```
@@ -231,4 +231,4 @@ pnpm build && pnpm start       # Production
 ## 🔗 Links
 
 [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://dashboard.josmarypirela.dev)
-[![PageSpeed](https://img.shields.io/badge/PageSpeed-91/100-brightgreen)](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)
+[![PageSpeed](https://img.shields.io/badge/PageSpeed-100/100-brightgreen)](https://pagespeed.web.dev/analysis/https-dashboard-josmarypirela-dev/ky8q0qtcyh?form_factor=desktop)

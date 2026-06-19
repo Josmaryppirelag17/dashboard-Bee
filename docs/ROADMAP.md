@@ -26,6 +26,9 @@
 | Zod en Tasks API                                         | ✅     | 2026-06-11 |
 | GPQF Level 4 alcanzado                                   | ✅     | 2026-06-11 |
 | Cierre y Maintenance Mode                                | ✅     | 2026-06-11 |
+| Coverage push (49 tests, 8 suites)                       | ✅     | 2026-06-19 |
+| E2E httpOnly cookie fix                                   | ✅     | 2026-06-19 |
+| GPQF Level 5 — Portfolio Ready                           | ✅     | 2026-06-19 |
 
 ---
 
@@ -33,7 +36,6 @@
 
 | Feature                    | Motivo                                                                                                                |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| E2E tests completos        | Los ~90 tests unitarios dan confianza en lógica core. El esfuerzo de E2E no justifica el beneficio para un portafolio |
 | LoggerService estructurado | console.log es suficiente para el tamaño del proyecto                                                                 |
 | Redis para rate limiting   | In-memory es suficiente para un proyecto de portafolio sin escala                                                     |
 | Account lockout            | Rate limiting ya mitiga fuerza bruta                                                                                  |

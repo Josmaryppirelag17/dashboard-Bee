@@ -14,7 +14,7 @@ pnpm dev              # http://localhost:3000
 pnpm dev              # Desarrollo
 pnpm build            # Build producción
 pnpm start            # Iniciar producción
-pnpm test             # Tests unitarios (104 tests)
+pnpm test             # Tests unitarios + API (264 tests)
 pnpm test:e2e         # Tests E2E
 pnpm typecheck        # TypeScript check
 pnpm lint             # ESLint

@@ -30,7 +30,7 @@
 | ----------------- | ------------------------------------- |
 | TypeScript strict | Tipado estático                       |
 | ESLint + Prettier | Linting y formateo                    |
-| Vitest            | Tests unitarios (104 tests, 7 suites) |
+| Vitest            | Tests unitarios + API (264 tests, 25 suites) |
 | Playwright        | Tests E2E                             |
 | SonarCloud        | Análisis estático                     |
 
