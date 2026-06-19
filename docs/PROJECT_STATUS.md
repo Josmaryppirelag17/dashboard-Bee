@@ -1,6 +1,6 @@
 # Project Status
 
-> Última actualización: 2026-06-11
+> Última actualización: 2026-06-19
 
 ---
 
@@ -9,8 +9,8 @@
 | Campo      | Valor                               |
 | ---------- | ----------------------------------- |
 | Proyecto   | Dashboard-Bee (BeeHive)             |
-| Estado     | 🟡 **Maintenance Mode**             |
-| GPQF Level | 4 — Production Ready                |
+| Estado     | 🟢 **Portfolio Ready (GPQF Level 5)** |
+| GPQF Level | 5 — Portfolio Ready (~100%)         |
 | Tipo       | Web (Next.js) — Productividad       |
 | URL        | https://dashboard.josmarypirela.dev |
 
@@ -23,7 +23,11 @@
 | Inicio del proyecto         | 2026-05    |
 | GPQF Level 4 alcanzado      | 2026-06-11 |
 | Zod validation en Tasks API | 2026-06-11 |
-| Cierre y mantenimiento      | 2026-06-11 |
+| CI typecheck fix + coverage | 2026-06-19 |
+| Onboarding Tour + tests     | 2026-06-19 |
+| Exporter unit tests         | 2026-06-19 |
+| E2E specs completadas       | 2026-06-19 |
+| Proyecto completo           | 2026-06-19 |
 
 ---
 
@@ -32,13 +36,16 @@
 - Kanban drag & drop con @dnd-kit (3 columnas)
 - Pomodoro timer configurable con sonido y selector de tareas
 - Gamificación: XP, leveling, 6 achievements, 8 quests
-- CSV export/import con parsing ES/EN
-- Estadísticas SVG con hover states
+- CSV export/import con parsing ES/EN (8 unit tests, 100% coverage)
+- Estadísticas SVG con hover states (lazy-loaded)
 - i18n ES/EN completo (~90 keys, 12 secciones)
 - Persistencia: Neon PostgreSQL + IndexedDB (Dexie) + localStorage
-- Autenticación: bcryptjs 12 rounds, httpOnly cookies, rate limiting
+- Autenticación: bcryptjs 12 rounds, httpOnly cookies, rate limiting (E2E tested)
+- Onboarding Tour: 7 pasos ES/EN (12 tests, 89.64% coverage)
 - Seguridad A+ (CSP nonce, HSTS preload)
 - CI/CD completo con staging + production + rollback
+- SessionList multi-device con revocación individual/masiva
+- LoggerService estructurado con niveles
 
 ---
 
@@ -51,15 +58,17 @@
 | Lighthouse Best Practices | 96/100                        |
 | Lighthouse SEO            | 100/100                       |
 | Mozilla Observatory       | A+                            |
-| Tests unitarios           | ~90                           |
-| Cobertura thresholds      | 80% statements                |
+| Tests unitarios + API     | 215 (17 suites)               |
+| Tests E2E                 | 6 specs (Playwright)          |
+| Cobertura statements      | 86.53%                        |
+| Cobertura branches        | 76.95%                        |
+| Cobertura functions       | 73.68%                        |
+| Cobertura lines           | 86.53%                        |
 | LCP                       | 0.6s                          |
 | CLS                       | 0.01                          |
 
 ---
 
-## Próximos pasos (solo mantenimiento)
+## Próximos pasos
 
-- Corregir bugs críticos si aparecen
-- Actualizar dependencias de seguridad
-- No hay desarrollo activo planificado
+Proyecto completo contra `base.md`. Sin bloqueadores pendientes.

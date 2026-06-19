@@ -4,6 +4,30 @@
 
 ---
 
+## [2.1.0] — 2026-06-19
+
+### Added
+
+- OnboardingTour: 7-step interactive tour (ES/EN) — 12 tests, 89.64% coverage
+- Exporter unit tests: 8 tests covering CSV blob, BOM, accents, filename, edge cases (100% coverage)
+- E2E specs: reset-password (forgot link, invalid email) — 2 tests
+- E2E specs: import-export (CSV export, empty error, import button) — 3 tests
+
+### Fixed
+
+- CI typecheck errors: TS2345 on Drizzle mock chains in tests/api (auth, stats, tasks)
+- Exporter mock: added setAttribute stub for jsdom compatibility
+- OnboardingTour test: getAllByText for backdrop overlay (multiple elements match)
+- exporter.ts removed from coverage exclusion list
+
+### Changed
+
+- Coverage thresholds: branches 70%→74% (met at 76.95%)
+- Test total: 104→215 tests (17 suites)
+- def-of-done: updated to reflect full E2E + unit coverage
+
+---
+
 ## [2.0.0] — 2026-06-11
 
 ### Fixed

@@ -2,7 +2,7 @@
 
 > Gamified productivity dashboard with Pomodoro, Kanban, XP quests and user authentication.
 
-[![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-215%20passed-brightgreen)]()
 [![Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A%2B-brightgreen)]()
 [![CI](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/test.yml)
 [![Deploy](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml/badge.svg)](https://github.com/Josmaryppirelag17/Dashboard-Bee/actions/workflows/deploy.yml)
@@ -63,9 +63,10 @@
 | **Kanban Board**      | Task management with drag & drop (To do → In progress → Done)                              |
 | **Gamification**      | XP from claimable quests with level-based ranking system                                   |
 | **Weekly statistics** | SVG charts of focus time and daily efficiency                                              |
-| **CSV Import/Export** | Backup and restore tasks in CSV format                                                     |
-| **Authentication**    | Registration, login, forgot/reset password with bcryptjs, httpOnly cookies and DB sessions |
+| **CSV Import/Export** | Backup and restore tasks in CSV format (with E2E + unit tests)                                |
+| **Authentication**    | Registration, login, forgot/reset password with bcryptjs, httpOnly cookies and DB sessions (E2E tested) |
 | **i18n**              | Spanish and English with hot-switching (includes auth forms)                               |
+| **Onboarding Tour**   | 7-step interactive tour (ES/EN) for new users (89.64% coverage, 12 tests)                  |
 | **Markdown Notes**    | Per-task Markdown note editor with preview (lazy-loaded)                                   |
 
 ---
@@ -97,7 +98,7 @@
 | ------------------- | ------------------------------------------- |
 | `pnpm dev`          | Start development server (Turborepo)        |
 | `pnpm build`        | Build for production (Turborepo with cache) |
-| `pnpm test`         | Unit tests with coverage (104 tests)        |
+| `pnpm test`         | Unit + API tests with coverage (215 tests)  |
 | `pnpm test:e2e`     | End-to-end tests with Playwright            |
 | `pnpm typecheck`    | TypeScript type checking                    |
 | `pnpm lint`         | ESLint (flat config, no circular ref)       |
@@ -112,8 +113,8 @@
 ## 🧪 Tests
 
 ```bash
-pnpm test        # Unit + integration (Vitest) — 104 tests, 7 suites
-pnpm test:e2e    # E2E (Playwright: Chromium/Firefox/WebKit local, Chromium only in CI)
+pnpm test        # Unit + API + integration (Vitest) — 215 tests, 17 suites
+pnpm test:e2e    # E2E (Playwright: auth, tasks, focus, full-flow, reset-password, import-export)
 pnpm preflight   # typecheck + lint + test (CI pipeline)
 ```
 
