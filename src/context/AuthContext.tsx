@@ -78,6 +78,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
+  const tryShowOnboarding = useCallback(() => {
+    const { onboardingCompleted } = useHiveStore.getState();
+    if (!onboardingCompleted) {
+      useHiveStore.getState().setShowOnboarding(true);
+    }
+  }, []);
+
   const login = useCallback(async (email: string, password: string) => {
     try {
       const res = await fetch("/api/auth/login", {
@@ -143,6 +150,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } catch (e) {
           log.error("Sync after login failed", e);
         }
+        tryShowOnboarding();
         return { success: true };
       }
       return {
@@ -192,6 +200,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             log.error("Sync after register failed", e);
           }
           await store.loadTasks();
+          tryShowOnboarding();
           return { success: true };
         }
         return {

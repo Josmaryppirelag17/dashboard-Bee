@@ -83,7 +83,7 @@ describe("GET /api/stats", () => {
           limit: vi.fn().mockResolvedValueOnce([]),
         })),
       })),
-    });
+    } as any);
     const { GET } = await import("@/app/api/stats/route");
     const res = await GET();
     const data = await res.json();
@@ -109,7 +109,7 @@ describe("GET /api/stats", () => {
           }]),
         })),
       })),
-    });
+    } as any);
     const { GET } = await import("@/app/api/stats/route");
     const res = await GET();
     const data = await res.json();
@@ -142,7 +142,7 @@ describe("PUT /api/stats", () => {
           limit: vi.fn().mockResolvedValueOnce([{ userId: 1, xp: 100 }]),
         })),
       })),
-    });
+    } as any);
     const { PUT } = await import("@/app/api/stats/route");
     const res = await PUT(mockRequest({ xp: 200, level: 5 }));
     expect(res.status).toBe(200);
@@ -158,7 +158,7 @@ describe("PUT /api/stats", () => {
           limit: vi.fn().mockResolvedValueOnce([]),
         })),
       })),
-    });
+    } as any);
     const { PUT } = await import("@/app/api/stats/route");
     const res = await PUT(mockRequest({ xp: 50, level: 1 }));
     expect(res.status).toBe(200);
@@ -174,7 +174,7 @@ describe("PUT /api/stats", () => {
           limit: vi.fn().mockResolvedValueOnce([{ userId: 1 }]),
         })),
       })),
-    });
+    } as any);
     const { PUT } = await import("@/app/api/stats/route");
     const res = await PUT(mockRequest({ weeklyFocusMins: [1, 2, 3, 4, 5, 6, 7] }));
     expect(res.status).toBe(200);

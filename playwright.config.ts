@@ -14,13 +14,28 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
-  projects: isCI
-    ? [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }]
-    : [
-        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-        { name: "firefox", use: { ...devices["Desktop Firefox"] } },
-        { name: "webkit", use: { ...devices["Desktop Safari"] } },
-      ],
+  projects: [
+    { name: "auth-setup", testMatch: /auth\.setup\.ts/ },
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"], storageState: ".auth/user.json" },
+      dependencies: ["auth-setup"],
+    },
+    ...(isCI
+      ? []
+      : [
+          {
+            name: "firefox",
+            use: { ...devices["Desktop Firefox"], storageState: ".auth/user.json" },
+            dependencies: ["auth-setup"],
+          },
+          {
+            name: "webkit",
+            use: { ...devices["Desktop Safari"], storageState: ".auth/user.json" },
+            dependencies: ["auth-setup"],
+          },
+        ]),
+  ],
   webServer: {
     command: "pnpm dev",
     port: 3000,

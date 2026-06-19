@@ -344,7 +344,7 @@ describe("GET /api/auth/sessions", () => {
           orderBy: vi.fn().mockResolvedValueOnce(sessionsData),
         })),
       })),
-    });
+    } as any);
     const { GET } = await import("@/app/api/auth/sessions/route");
     const res = await GET();
     expect(res.status).toBe(200);

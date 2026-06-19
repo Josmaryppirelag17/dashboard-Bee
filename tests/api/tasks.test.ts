@@ -98,7 +98,7 @@ describe("GET /api/tasks", () => {
       from: vi.fn(() => ({
         where: vi.fn().mockResolvedValueOnce(tasks),
       })),
-    });
+    } as any);
     const { GET } = await import("@/app/api/tasks/route");
     const res = await GET();
     expect(res.status).toBe(200);

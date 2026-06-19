@@ -50,7 +50,6 @@ export default defineConfig({
         "src/hooks/useDebounce.ts",
         "src/hooks/useHiveProjection.ts",
         "src/hooks/useSessionTracker.ts",
-        "src/utils/exporter.ts",
         "src/theme.ts",
       ],
       thresholds: {

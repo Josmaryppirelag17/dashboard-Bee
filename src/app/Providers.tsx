@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { BeeToastProvider } from "@/context/BeeToastContext";
 import { AuthProvider } from "@/context/AuthContext";
+import OnboardingTour from "@/components/organisms/OnboardingTour";
 
 const StructuredData = dynamic(
   () => import("@/lib/structured-data").then((m) => ({ default: m.StructuredData })),
@@ -26,7 +27,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <StructuredData />
       <ErrorBoundary>
         <AuthProvider>
-          <BeeToastProvider>{children}</BeeToastProvider>
+          <BeeToastProvider>
+            {children}
+            <OnboardingTour />
+          </BeeToastProvider>
         </AuthProvider>
       </ErrorBoundary>
     </>

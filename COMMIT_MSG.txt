@@ -1,0 +1,9 @@
+test: add exporter, onboarding tour, reset-password E2E specs
+
+- Exporter unit tests: 8 tests covering CSV blob, BOM, commas, date filename, notes edge cases
+- OnboardingTour component tests: 12 tests, 89.64% stmts, 100% funcs
+- E2E reset-password spec: 2 tests (forgot link, invalid email)
+- E2E import-export spec: 3 tests (CSV export, empty error, import button)
+- Fix TS type errors: dueDate/notes null to undefined, unused imports, remove coverage exclusion
+- Fix exporter mock: setAttribute stub for jsdom compat
+- Fix OnboardingTour test: getAllByText for backdrop overlay

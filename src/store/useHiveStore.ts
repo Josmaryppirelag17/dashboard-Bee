@@ -33,6 +33,8 @@ interface HiveState {
   claimedQuests: string[];
 
   userId: number | null;
+  onboardingCompleted: boolean;
+  showOnboarding: boolean;
 
   triggerSavingState: (operation: () => Promise<void>) => Promise<void>;
   setSearchQuery: (query: string) => void;
@@ -65,6 +67,8 @@ interface HiveState {
   isQuestClaimed: (questId: string) => boolean;
   importTasks: (importedTasks: Omit<Task, "id">[]) => Promise<void>;
   setUserId: (id: number | null) => void;
+  setOnboardingCompleted: (val: boolean) => void;
+  setShowOnboarding: (val: boolean) => void;
 }
 
 const safeLocalGet = (key: string, fallback: string): string => {
@@ -114,6 +118,8 @@ export const useHiveStore = create<HiveState>((set, get) => ({
   weeklyFocusMins: [0, 0, 0, 0, 0, 0, 0],
   weeklyTasksCompleted: [0, 0, 0, 0, 0, 0, 0],
   hydrated: false,
+  onboardingCompleted: false,
+  showOnboarding: false,
 
   xp: 0,
   level: 1,
@@ -136,6 +142,7 @@ export const useHiveStore = create<HiveState>((set, get) => ({
         userBeeName: safeLocalGet("beehive_userBeeName", defaultBeeName),
         unlockedAchievements: safeJSONGet("beehive_unlockedAchievements", []),
         claimedQuests: safeJSONGet("beehive_claimedQuests", []),
+        onboardingCompleted: safeLocalGet("beehive_onboardingCompleted", "false") === "true",
         hydrated: true,
       });
     });
@@ -574,4 +581,12 @@ export const useHiveStore = create<HiveState>((set, get) => ({
   },
 
   setUserId: (id) => set({ userId: id }),
+
+  setOnboardingCompleted: (val) => {
+    try {
+      localStorage.setItem("beehive_onboardingCompleted", String(val));
+    } catch { /* private browsing */ }
+    set({ onboardingCompleted: val, showOnboarding: false });
+  },
+  setShowOnboarding: (val) => set({ showOnboarding: val }),
 }));
