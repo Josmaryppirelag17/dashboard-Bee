@@ -20,13 +20,13 @@ test.describe("Full User Journey", () => {
     await page.locator("#sidebar-item-dashboard").click();
     await page.waitForTimeout(500);
 
-    const addBtn = page.locator("button").filter({ hasText: /Add Task|Agregar Labor/ });
+    const addBtn = page.locator("button").filter({ hasText: /New Task|Nueva Labor/ });
     await addBtn.click();
     await page.waitForTimeout(300);
 
-    const titleInput = page.locator('input[placeholder*="task" i], #task-title').first();
+    const titleInput = page.locator("#task-description");
     await titleInput.fill("Full Flow Test Task");
-    const saveBtn = page.locator('button[type="submit"]').filter({ hasText: /Add|Agregar/ }).first();
+    const saveBtn = page.locator('button[type="submit"]').filter({ hasText: /Submit into Hive|Ingresar en el Panal/ }).first();
     await saveBtn.click();
     await page.waitForTimeout(1000);
 

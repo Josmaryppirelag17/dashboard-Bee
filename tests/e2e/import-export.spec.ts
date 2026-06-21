@@ -17,13 +17,13 @@ test.describe("Import / Export", () => {
     await page.waitForTimeout(500);
 
     // Add a task
-    const addBtn = page.locator("button").filter({ hasText: /Add Task|Agregar Labor/ });
+    const addBtn = page.locator("button").filter({ hasText: /New Task|Nueva Labor/ });
     await addBtn.click();
     await page.waitForTimeout(300);
 
-    const titleInput = page.locator('input[placeholder*="task" i], #task-title').first();
+    const titleInput = page.locator("#task-description");
     await titleInput.fill("CSV Export Task");
-    const saveBtn = page.locator('button[type="submit"]').filter({ hasText: /Add|Agregar/ }).first();
+    const saveBtn = page.locator('button[type="submit"]').filter({ hasText: /Submit into Hive|Ingresar en el Panal/ }).first();
     await saveBtn.click();
     await page.waitForTimeout(1000);
 
@@ -54,14 +54,13 @@ test.describe("Import / Export", () => {
     await page.waitForTimeout(500);
 
     // Look for import functionality
-    const importBtn = page.locator("button").filter({ hasText: /Import|Importar/i });
-    if (await importBtn.isVisible()) {
-      await importBtn.click();
-      await page.waitForTimeout(500);
+    const importBtn = page.locator("button").filter({ hasText: /Import CSV|Importar CSV/ });
+    await expect(importBtn).toBeVisible({ timeout: 5000 });
+    await importBtn.click();
+    await page.waitForTimeout(500);
 
-      // Should show file input
-      const fileInput = page.locator('input[type="file"]');
-      await expect(fileInput).toBeVisible({ timeout: 3000 });
-    }
+    // File input exists in DOM (hidden until triggered by button)
+    const fileInput = page.locator('input[type="file"]');
+    await expect(fileInput).toBeAttached();
   });
 });
