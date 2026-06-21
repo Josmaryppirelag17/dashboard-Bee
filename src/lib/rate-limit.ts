@@ -8,7 +8,7 @@ export interface RateLimitResult {
 }
 
 export function checkRateLimit(ip: string, maxAttempts: number, windowMs: number): RateLimitResult {
-  if (process.env.CI) {
+  if (process.env.DISABLE_RATE_LIMIT) {
     return { allowed: true, limit: maxAttempts, remaining: maxAttempts, resetAt: Date.now() + windowMs };
   }
   const now = Date.now();
