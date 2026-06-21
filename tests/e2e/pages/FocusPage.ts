@@ -40,7 +40,7 @@ export class FocusPage {
   }
 
   async setWorkMinutes(mins: number) {
-    await this.page.locator("button").filter({ hasText: `${mins}m` }).click();
+    await this.page.locator("button").filter({ hasText: `${mins}m` }).first().click();
   }
 
   get isTimerRunning(): Promise<boolean> {
